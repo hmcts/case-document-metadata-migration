@@ -30,11 +30,6 @@ if ! [ -x "$(command -v psql)" ]; then
     IS_REQUIRED_SOFTWARE_INSTALLED=false
 fi
 
-if ! [ -x "$(command -v gzip)" ]; then
-    echo "[*] gzip is required but could not be found"
-    IS_REQUIRED_SOFTWARE_INSTALLED=false
-fi
-
 if [ "$IS_REQUIRED_SOFTWARE_INSTALLED" = false ]; then
     echo "[*] Exiting"
     echo
@@ -76,17 +71,17 @@ if [[ "$ENV" == "local" && ( -z "$DEFINITION_STORE_SNAPSHOT" || -z "$DATA_STORE_
     export PGPASSWORD="ccd"
 
     if [ -z "$DEFINITION_STORE_SNAPSHOT" ]; then
-        DEFINITION_STORE_SNAPSHOT="snapshot-definition-store-$(date "+%Y%m%d-%H%M%S").gz"
+        DEFINITION_STORE_SNAPSHOT="snapshot-definition-store-$(date "+%Y%m%d-%H%M%S")"
         echo -n "[*] Creating definition store database snapshot... "
-        OUT=$(pg_dump -w -h "localhost" -p "5050" -U "ccd" "ccd_definition" | gzip > "$DEFINITION_STORE_SNAPSHOT")
+        OUT=$(pg_dump -w -h "localhost" -p "5050" -U "ccd" "ccd_definition" > "$DEFINITION_STORE_SNAPSHOT")
         echo "[done]"
         echo "[*] Wrote compressed definition store database snapshot to $DEFINITION_STORE_SNAPSHOT"
     fi
 
     if [ -z "$DATA_STORE_SNAPSHOT" ]; then
-        DATA_STORE_SNAPSHOT="snapshot-data-store-$(date "+%Y%m%d-%H%M%S").gz"
+        DATA_STORE_SNAPSHOT="snapshot-data-store-$(date "+%Y%m%d-%H%M%S")"
         echo -n "[*] Creating data store database snapshot... "
-        OUT=$(pg_dump -w -h "localhost" -p "5050" -U "ccd" "ccd_data" | gzip > "$DATA_STORE_SNAPSHOT")
+        OUT=$(pg_dump -w -h "localhost" -p "5050" -U "ccd" "ccd_data" > "$DATA_STORE_SNAPSHOT")
         echo "[done]"
         echo "[*] Wrote compressed data store database snapshot to $DATA_STORE_SNAPSHOT"
     fi
@@ -105,14 +100,16 @@ fi
 # create local snapshot databases
 if [ "$ENV" == "local" ]; then
     echo -n "[*] Creating snapshot databases... "
-    OUT=$(dropdb definition_store_snapshot)
-    OUT=$(dropdb data_store_snapshot)
+    OUT=$(dropdb --if-exists definition_store_snapshot)
+    OUT=$(dropdb --if-exists data_store_snapshot)
     OUT=$(createdb definition_store_snapshot)
     OUT=$(createdb data_store_snapshot)
+    OUT=$(psql definition_store_snapshot -c "DROP ROLE IF EXISTS ccd; CREATE ROLE ccd WITH SUPERUSER")
+    OUT=$(psql data_store_snapshot -c "DROP ROLE IF EXISTS ccd; CREATE ROLE ccd WITH SUPERUSER")
     echo "[done]"
     echo -n "[*] Loading snapshots into databases... "
-    OUT=$(gunzip "$DEFINITION_STORE_SNAPSHOT" | psql definition_store_snapshot)
-    OUT=$(gunzip "$DATA_STORE_SNAPSHOT" | psql data_store_snapshot)
+    OUT=$(psql definition_store_snapshot < "$DEFINITION_STORE_SNAPSHOT")
+    OUT=$(psql data_store_snapshot < "$DATA_STORE_SNAPSHOT")
     echo "[done]"
 fi
 
@@ -125,12 +122,13 @@ echo -n "[*] Getting document keys... "
 OUT=$(psql -v JURISDICTION="'${JURISDICTION}'" -f scripts/get-document-keys.sql definition_store_snapshot)
 echo "[done]"
 
+mkdir -p tmp
 echo -n "[*] Exporting document keys... "
-OUT=$(pg_dump -t document_keys definition_store_snapshot > document_keys.tbl)
+OUT=$(pg_dump -t document_keys definition_store_snapshot > tmp/document_keys.tbl)
 echo "[done]"
 
 echo -n "[*] Importing document keys to data store... "
-OUT=$(psql data_store_snapshot < document_keys.tbl)
+OUT=$(psql data_store_snapshot < tmp/document_keys.tbl)
 echo "[done]"
 
 if [ -z "${FROM_DATE}" ]; then
@@ -138,13 +136,20 @@ if [ -z "${FROM_DATE}" ]; then
 fi
 
 if [ -z "${STAGING_TABLE}" ]; then
-    echo "id,case_id,case_type_id,jurisdiction,document_id,document_url,case_created_date,case_last_modified_date,migrated" > staging.csv
-    STAGING_TABLE="staging.csv"
+    echo "id,case_id,case_type_id,jurisdiction,document_id,document_url,case_created_date,case_last_modified_date,migrated" > tmp/staging.csv
+else
+    cp "$STAGING_TABLE" tmp/staging.csv
 fi
 
 echo -n "[*] Populating staging table and exporting CSV... "
-OUT=$(psql -v STAGING_TABLE="'${STAGING_TABLE}'" -v FROM_DATE="'${FROM_DATE}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/migrate-staging.sql data_store_snapshot)
+OUT=$(psql -v FROM_DATE="'${FROM_DATE}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/migrate-staging.sql data_store_snapshot)
+if [ ! -z "$STAGING_TABLE" ]; then
+    cp tmp/staging.csv "$STAGING_TABLE"
+else
+    cp tmp/staging.csv staging-$(date "+%Y%m%d-%H%M%S").csv
+fi
 echo "[done]"
+rm -rf ./tmp
 
 # drop local snapshot databases
 if [ "$ENV" == "local" ]; then

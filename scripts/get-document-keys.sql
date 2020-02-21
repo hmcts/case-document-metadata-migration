@@ -8,7 +8,7 @@ CREATE TABLE document_keys (
 );
 
 INSERT INTO document_keys
-    SELECT j.reference AS jurisdiction,
+    SELECT DISTINCT j.reference AS jurisdiction,
         ct.reference AS case_type,
         cf.reference AS document_key
     FROM case_field AS cf
