@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+# STEP 7: Get the document field names from the CCD Definition Store snapshot
+##
+
 if [ -z "$JURISDICTION" ]; then
     JURISDICTION="%"
 fi

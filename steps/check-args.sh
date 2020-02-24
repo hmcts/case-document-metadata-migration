@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+# STEP 2: Check the arguments that are passed to the script
+##
+
 while getopts 'e:j:d:f:t:s:' FLAG; do
     case "${FLAG}" in
         e)

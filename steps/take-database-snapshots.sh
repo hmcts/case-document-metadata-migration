@@ -1,5 +1,10 @@
 #!/bin/bash
 
+##
+# STEP 4: If one or more database snapshots are not provided as input arguments, create new snapshots
+# in the current state of the CCD Definition Store and/or CCD Data Store databases
+##
+
 if [[ -z "$DEFINITION_STORE_SNAPSHOT" || -z "$DATA_STORE_SNAPSHOT" ]]; then
     read -p "[*] Database snapshots have not been provided, so they will be created in their current state. Continue? (y/n): " CONFIRM
     if [[ $CONFIRM != [yY] && $CONFIRM != [yY][eE][sS] ]]; then

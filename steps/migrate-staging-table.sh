@@ -1,5 +1,10 @@
 #!/bin/bash
 
+##
+# STEP 10: Run the migration script for creating and populating the staging table in the CCD Data Store
+# snapshot, and then export the staging table to a CSV file
+##
+
 mkdir -p tmp
 if [ -z "$FROM_DATE" ]; then
     FROM_DATE="01-01-1970"

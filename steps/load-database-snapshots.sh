@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+# STEP 6: Load the snapshots into local temporary databases
+##
+
 echo -n "[*] Creating snapshot databases... "
 dropdb --if-exists definition_store_snapshot > /dev/null 2>&1
 dropdb --if-exists data_store_snapshot > /dev/null 2>&1
