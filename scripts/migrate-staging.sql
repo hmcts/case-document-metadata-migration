@@ -1,4 +1,3 @@
-
 BEGIN;
 
 CREATE TABLE staging (

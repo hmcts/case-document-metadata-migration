@@ -66,6 +66,7 @@ case "$ENV" in
     *)
         echo "[*] Unrecognised environment: $ENV"
         echo "[*] Exiting"
+        echo
         exit 1
         ;;
 esac
