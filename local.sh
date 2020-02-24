@@ -31,10 +31,11 @@ if [[ -z "$DEFINITION_STORE_SNAPSHOT" || -z "$DATA_STORE_SNAPSHOT" ]]; then
 fi
 
 # ensure local postgres server is running
+mkdir -p tmp
 POSTMASTER=/usr/local/var/postgres/postmaster.pid
 if [ ! -f "$POSTMASTER" ]; then
     echo -n "[*] Starting local postgres server... "
-    OUT=$(pg_ctl -D /usr/local/var/postgres start)
+    OUT=$(pg_ctl -D /usr/local/var/postgres -l tmp/pg.log start)
     echo "[done]"
 fi
 
@@ -61,7 +62,6 @@ echo -n "[*] Getting document keys... "
 OUT=$(psql -v JURISDICTION="'${JURISDICTION}'" -f scripts/get-document-keys.sql definition_store_snapshot)
 echo "[done]"
 
-mkdir -p tmp
 echo -n "[*] Exporting document keys... "
 OUT=$(pg_dump -t document_keys definition_store_snapshot > tmp/document_keys.tbl)
 echo "[done]"
