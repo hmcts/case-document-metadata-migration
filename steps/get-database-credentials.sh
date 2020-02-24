@@ -18,6 +18,18 @@ case "$ENV" in
         DATA_STORE_USER="ccd"
         DATA_STORE_PASS="ccd"
         ;;
+    aat)
+        DEFINITION_STORE_HOST=$(az keyvault secret show)
+        DEFINITION_STORE_PORT=$(az keyvault secret show)
+        DEFINITION_STORE_NAME=$(az keyvault secret show)
+        DEFINITION_STORE_USER=$(az keyvault secret show)
+        DEFINITION_STORE_PASS=$(az keyvault secret show)
+        DATA_STORE_HOST=$(az keyvault secret show)
+        DATA_STORE_PORT=$(az keyvault secret show)
+        DATA_STORE_NAME=$(az keyvault secret show)
+        DATA_STORE_USER=$(az keyvault secret show)
+        DATA_STORE_PASS=$(az keyvault secret show)
+        ;;
     *)
         ;;
 esac
