@@ -5,7 +5,29 @@ set -e
 set -u
 set -o pipefail
 
-print_usage () {
+ENV=
+JURISDICTION=
+FROM_DATE=
+DEFINITION_STORE_SNAPSHOT=
+DATA_STORE_SNAPSHOT=
+STAGING_TABLE=
+DEFINITION_STORE_HOST=
+DEFINITION_STORE_PORT=
+DEFINITION_STORE_NAME=
+DEFINITION_STORE_USER=
+DEFINITION_STORE_PASS=
+DATA_STORE_HOST=
+DATA_STORE_PORT=
+DATA_STORE_NAME=
+DATA_STORE_USER=
+DATA_STORE_PASS=
+
+echo "[*] Starting"
+
+source steps/check-required-software.sh
+source steps/check-args.sh
+
+if [ -z "$ENV" ]; then
     echo "[*] Usage: $0 -e [env]"
     echo
     echo "    Mandatory flags"
@@ -19,49 +41,19 @@ print_usage () {
     echo "    -s [staging_table]"
     echo
     exit 1
-}
-
-echo "[*] Starting"
-
-IS_REQUIRED_SOFTWARE_INSTALLED=true
-
-if ! [ -x "$(command -v psql)" ]; then
-    echo "[*] postgres is required but could not be found"
-    IS_REQUIRED_SOFTWARE_INSTALLED=false
-fi
-
-if [ "$IS_REQUIRED_SOFTWARE_INSTALLED" = false ]; then
-    echo "[*] Exiting"
-    echo
-    exit 1
-fi
-
-ENV=
-JURISDICTION=
-FROM_DATE=
-DEFINITION_STORE_SNAPSHOT=
-DATA_STORE_SNAPSHOT=
-STAGING_TABLE=
-
-while getopts 'e:j:d:f:t:s:' FLAG; do
-    case "${FLAG}" in
-        e) ENV="${OPTARG}" ;;
-        j) JURISDICTION="${OPTARG}" ;;
-        d) FROM_DATE="${OPTARG}" ;;
-        f) DEFINITION_STORE_SNAPSHOT="${OPTARG}" ;;
-        t) DATA_STORE_SNAPSHOT="${OPTARG}" ;;
-        s) STAGING_TABLE="${OPTARG}" ;;
-        *) print_usage ;;
-    esac
-done
-
-if [ -z "$ENV" ]; then
-   print_usage
 fi
 
 case "$ENV" in
     local)
-        source local.sh
+        source steps/get-database-credentials.sh
+        source steps/take-database-snapshots.sh
+        source steps/start-local-postgres-server.sh
+        source steps/load-database-snapshots.sh
+        source steps/get-document-keys.sh
+        source steps/export-document-keys.sh
+        source steps/import-document-keys-to-data-store.sh
+        source steps/migrate-staging-table.sh
+        source steps/clean-up.sh
         ;;
     *)
         echo "[*] Unrecognised environment: $ENV"
