@@ -23,6 +23,7 @@ print_usage () {
 
 echo "[*] Starting"
 
+# STEP 1: Check that required software is installed on the host system - PostgreSQL & gzip
 IS_REQUIRED_SOFTWARE_INSTALLED=true
 
 if ! [ -x "$(command -v psql)" ]; then
@@ -35,7 +36,7 @@ if [ "$IS_REQUIRED_SOFTWARE_INSTALLED" = false ]; then
     echo
     exit 1
 fi
-
+# STEP 2: Check that the mandatory arguments were passed, and that the optional arguments are as expected
 ENV=
 JURISDICTION=
 FROM_DATE=

@@ -8,7 +8,7 @@ if [[ -z "$DEFINITION_STORE_SNAPSHOT" || -z "$DATA_STORE_SNAPSHOT" ]]; then
         exit 1
     fi
 
-    # if no db shapshots provided, create new snapshots
+    # STEP 4: If no database snapshots were provided, create them, compress them using gzip and save them to the host file system
     export PGPASSWORD="ccd"
 
     if [ -z "$DEFINITION_STORE_SNAPSHOT" ]; then
@@ -38,7 +38,7 @@ if [ ! -f "$POSTMASTER" ]; then
     echo "[done]"
 fi
 
-# create local snapshot databases
+# STEP 5: Create temporary databases to load snapshots
 echo -n "[*] Creating snapshot databases... "
 OUT=$(dropdb --if-exists definition_store_snapshot)
 OUT=$(dropdb --if-exists data_store_snapshot)
@@ -47,12 +47,13 @@ OUT=$(createdb data_store_snapshot)
 OUT=$(psql definition_store_snapshot -c "DROP ROLE IF EXISTS ccd; CREATE ROLE ccd WITH SUPERUSER")
 OUT=$(psql data_store_snapshot -c "DROP ROLE IF EXISTS ccd; CREATE ROLE ccd WITH SUPERUSER")
 echo "[done]"
+# STEP 6: Load snapshots into temporary databases
 echo -n "[*] Loading snapshots into databases... "
 OUT=$(psql definition_store_snapshot < "$DEFINITION_STORE_SNAPSHOT")
 OUT=$(psql data_store_snapshot < "$DATA_STORE_SNAPSHOT")
 echo "[done]"
 
-# get document keys
+# STEP 7: Run script for retrieving the document keys from the CCD Definition Store database snapshot
 if [ -z "${JURISDICTION}" ]; then
     JURISDICTION="%"
 fi
@@ -60,16 +61,16 @@ fi
 echo -n "[*] Getting document keys... "
 OUT=$(psql -v JURISDICTION="'${JURISDICTION}'" -f scripts/get-document-keys.sql definition_store_snapshot)
 echo "[done]"
-
+# STEP 8:Export the document_keys table to the host file system
 mkdir -p tmp
 echo -n "[*] Exporting document keys... "
 OUT=$(pg_dump -t document_keys definition_store_snapshot > tmp/document_keys.tbl)
 echo "[done]"
-
+# STEP 9:Import the document_keys table into the CCD Data Store database snapshot
 echo -n "[*] Importing document keys to data store... "
 OUT=$(psql data_store_snapshot < tmp/document_keys.tbl)
 echo "[done]"
-
+# STEP 10: Run migration script for creating and populating the staging table in the CCD Data Store database snapshot, which results in the staging table being exported as a CSV file
 if [ -z "${FROM_DATE}" ]; then
     FROM_DATE="01-01-1970"
 fi
@@ -90,7 +91,7 @@ fi
 echo "[done]"
 rm -rf ./tmp
 
-# drop local snapshot databases
+# STEP 11: drop local snapshot databases
 echo -n "[*] Dropping snapshot databases... "
 OUT=$(dropdb definition_store_snapshot)
 OUT=$(dropdb data_store_snapshot)
