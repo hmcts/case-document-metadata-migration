@@ -21,6 +21,7 @@ DATA_STORE_PORT=
 DATA_STORE_NAME=
 DATA_STORE_USER=
 DATA_STORE_PASS=
+HTTP_PROXY=
 
 echo "[*] Starting"
 
@@ -45,6 +46,17 @@ fi
 
 case "$ENV" in
     local)
+        source steps/get-database-credentials.sh
+        source steps/take-database-snapshots.sh
+        source steps/start-local-postgres-server.sh
+        source steps/load-database-snapshots.sh
+        source steps/get-document-keys.sh
+        source steps/export-document-keys.sh
+        source steps/import-document-keys-to-data-store.sh
+        source steps/migrate-staging-table.sh
+        source steps/clean-up.sh
+        ;;
+    aattest)
         source steps/get-database-credentials.sh
         source steps/take-database-snapshots.sh
         source steps/start-local-postgres-server.sh
