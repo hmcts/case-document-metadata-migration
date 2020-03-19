@@ -17,7 +17,7 @@ else
 fi
 
 echo -n "[*] Populating staging table and exporting CSV... "
-psql -v FROM_DATE="'${FROM_DATE}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/migrate-staging.sql data_store_snapshot 2>&1 > /dev/null
+psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -w -v FROM_DATE="'${FROM_DATE}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/migrate-staging.sql data_store_snapshot 2>&1 > /dev/null
 if [ ! -z "$STAGING_TABLE" ]; then
     cp tmp/staging.csv "$STAGING_TABLE"
 else

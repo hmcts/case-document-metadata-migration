@@ -22,6 +22,8 @@ DATA_STORE_NAME=
 DATA_STORE_USER=
 DATA_STORE_PASS=
 HTTP_PROXY=
+DEFINITION_STORE_ADMIN_USER=
+DATA_STORE_ADMIN_USER=
 
 echo "[*] Starting"
 
@@ -56,16 +58,12 @@ case "$ENV" in
         source steps/migrate-staging-table.sh
         source steps/clean-up.sh
         ;;
-    aattest)
+    aatmigration)
         source steps/get-database-credentials.sh
-        source steps/take-database-snapshots.sh
-        source steps/start-local-postgres-server.sh
-        source steps/load-database-snapshots.sh
         source steps/get-document-keys.sh
         source steps/export-document-keys.sh
         source steps/import-document-keys-to-data-store.sh
         source steps/migrate-staging-table.sh
-        source steps/clean-up.sh
         ;;
     aat)
         source steps/get-database-credentials.sh

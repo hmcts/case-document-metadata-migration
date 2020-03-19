@@ -9,5 +9,6 @@ if [ -z "$JURISDICTION" ]; then
 fi
 
 echo -n "[*] Getting document keys... "
-psql -v JURISDICTION="'${JURISDICTION}'" -f scripts/get-document-keys.sql definition_store_snapshot 2>&1 > /dev/null
-echo "[done]"
+echo $DEFINITION_STORE_PASS
+psql  -h "$DEFINITION_STORE_HOST" -p "$DEFINITION_STORE_PORT" -d "$DEFINITION_STORE_NAME" -U "$DEFINITION_STORE_USER" -w -v JURISDICTION="'${JURISDICTION}'" -f scripts/get-document-keys.sql definition_store_snapshot 2>&1 > /dev/null
+echo "[Getting document keys... done]"

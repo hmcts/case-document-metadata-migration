@@ -3,7 +3,6 @@
 ##
 # STEP 3: Get the relevant database credentials for CCD Definition Store and CCD Data Store based on the
 # environment that the migration is being run in
-##
 
 case "$ENV" in
     local)
@@ -11,6 +10,8 @@ case "$ENV" in
         DEFINITION_STORE_PORT="5050"
         DEFINITION_STORE_NAME="ccd_definition"
         DEFINITION_STORE_USER="ccd"
+        DEFINITION_STORE_ADMIN_USER="postgres"
+        DATA_STORE_ADMIN_USER="postgres"
         DEFINITION_STORE_PASS="ccd"
         DATA_STORE_HOST="localhost"
         DATA_STORE_PORT="5050"
@@ -18,14 +19,13 @@ case "$ENV" in
         DATA_STORE_USER="ccd"
         DATA_STORE_PASS="ccd"
         ;;
-    aattest)
-        HTTP_PROXY="proxyout.reform.hmcts.net:8080"
-        DEFINITION_STORE_HOST="localhost"
-        DEFINITION_STORE_PORT="5433"
+    aatmigration)
+        DEFINITION_STORE_HOST="ccd-definition-store-data-migration.postgres.database.azure.com"
+        DEFINITION_STORE_PORT="5432"
         DEFINITION_STORE_NAME="ccd_definition_store"
         DEFINITION_STORE_USER="ccd@ccd-definition-store-data-migration"
         DEFINITION_STORE_PASS='\6T8(D${;5T/Dxy)(\'
-        DATA_STORE_HOST="localhost"
+        DATA_STORE_HOST="ccd-data-store-data-migration.postgres.database.azure.com"
         DATA_STORE_PORT="5433"
         DATA_STORE_NAME="ccd_data_store"
         DATA_STORE_USER="ccd@ccd-data-store-data-migration"
