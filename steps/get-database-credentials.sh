@@ -10,6 +10,7 @@ case "$ENV" in
         DEFINITION_STORE_PORT="5050"
         DEFINITION_STORE_NAME="ccd_definition"
         DEFINITION_STORE_USER="ccd"
+        DEFINITION_STORE_TEMP_USER="ccdtemp"
         DEFINITION_STORE_ADMIN_USER="postgres"
         DATA_STORE_ADMIN_USER="postgres"
         DEFINITION_STORE_PASS="ccd"
@@ -17,6 +18,7 @@ case "$ENV" in
         DATA_STORE_PORT="5050"
         DATA_STORE_NAME="ccd_data"
         DATA_STORE_USER="ccd"
+        DATA_STORE_TEMP_USER="ccdtemp"
         DATA_STORE_PASS="ccd"
         ;;
     aatmigration)
