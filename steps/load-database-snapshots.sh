@@ -10,24 +10,29 @@ echo -n "[*] Creating snapshot databases..."
 # Give Access Rights as Super User
 # Drop all the tables if it exists
 # Load all the tables from Snapshot
-echo "STEP 1: DEFINITION  STORE Drop all the tables if it exists"
-psql  -h "$DEFINITION_STORE_HOST" -p "$DEFINITION_STORE_PORT" -d "$DEFINITION_STORE_NAME" -U "$DEFINITION_STORE_TEMP_USER" -w -f scripts/drop-tables-tempdb.sql 2>&1 > /dev/null
+echo "STEP 1: DEFINITION  STORE Drop all the tables if it existss $DEFINITION_STORE_TEMP_HOST  $DEFINITION_STORE_TEMP_PORT $DEFINITION_STORE_TEMP_NAME $DEFINITION_STORE_TEMP_USER"
+export PGPASSWORD="$DEFINITION_STORE_TEMP_PASS"
+psql  -h "$DEFINITION_STORE_TEMP_HOST" -p "$DEFINITION_STORE_TEMP_PORT" -d "$DEFINITION_STORE_TEMP_NAME" -U "$DEFINITION_STORE_TEMP_USER" -w -f scripts/drop-tables-tempdb.sql 2>&1 > /dev/null
 echo "STEP 1 DONE"
 unset PGPASSWORD
 echo "STEP 2: DATA  STORE Drop all the tables if it exists"
-psql  -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_TEMP_USER" -w -f scripts/drop-tables-tempdb.sql 2>&1 > /dev/null
+export PGPASSWORD="$DEFINITION_STORE_TEMP_PASS"
+psql  -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -w -f scripts/drop-tables-tempdb.sql 2>&1 > /dev/null
 echo "STEP 2 DONE"
 unset PGPASSWORD
 echo "STEP 3: LOAD ALL TABLES FROM SNAPSHOT IN TO TEMPDB"
-psql -h "$DEFINITION_STORE_HOST" -p "$DEFINITION_STORE_PORT" -d "$DEFINITION_STORE_NAME" -U "$DEFINITION_STORE_TEMP_USER" -w -f "$DEFINITION_STORE_SNAPSHOT"
+export PGPASSWORD="$DEFINITION_STORE_TEMP_PASS"
+psql -h "$DEFINITION_STORE_TEMP_HOST" -p "$DEFINITION_STORE_TEMP_PORT" -d "$DEFINITION_STORE_TEMP_NAME" -U "$DEFINITION_STORE_TEMP_USER" -w -f "$DEFINITION_STORE_SNAPSHOT"
 echo "STEP 3 DONE"
 unset PGPASSWORD
 echo "STEP 4:  LOAD ALL TABLES FROM SNAPSHOT IN TO TEMPDB"
-psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_TEMP_USER" -w -f "$DATA_STORE_SNAPSHOT"
+export PGPASSWORD="$DEFINITION_STORE_TEMP_PASS"
+psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -w -f "$DATA_STORE_SNAPSHOT"
 echo "STEP 4 DONE"
 unset PGPASSWORD
-echo $definition_store_snapshot
-echo $data_store_snapshot
+echo "Usage for  exporting document keys in realtimedb : ./migration-runner.sh -e $ENV -o exportdocumentids -i $DBTYPE"
+#echo $definition_store_snapshot
+#echo $data_store_snapshot
 
 
 
