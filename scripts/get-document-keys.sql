@@ -1,5 +1,7 @@
 BEGIN;
 
+DROP TABLE document_keys;
+
 CREATE TABLE document_keys (
     jurisdiction VARCHAR,
     case_type VARCHAR,

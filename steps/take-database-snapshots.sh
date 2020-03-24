@@ -31,6 +31,6 @@ if [[ -z "$DEFINITION_STORE_SNAPSHOT" || -z "$DATA_STORE_SNAPSHOT" ]]; then
         echo "[done]"
         echo "[*] Wrote compressed data store database snapshot to $DATA_STORE_SNAPSHOT"
     fi
-
+    echo "Usage for loading snapshots in snapshotdb : ./migration-runner.sh -e $ENV -o loadsnapshots -i snapshotdb -f $DEFINITION_STORE_SNAPSHOT -t $DATA_STORE_SNAPSHOT"
     unset PGPASSWORD
 fi
