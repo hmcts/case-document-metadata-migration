@@ -90,21 +90,14 @@ case "$ENV$OPERATION$DBTYPE" in
         source steps/migrate-staging-table.sh
 #        source steps/clean-up.sh
         ;;
-    aatexportdocumentkeysrealtime)
-        source steps/get-database-credentials.sh
-        source steps/get-document-keys.sh
-        source steps/export-document-keys.sh
-        source steps/import-document-keys-to-data-store.sh
-        ;;
-    aat)
+    aatexportdocumentidsrealtime)
         source steps/get-database-credentials.sh
         source steps/start-local-postgres-server.sh
-        source steps/load-database-snapshots.sh
         source steps/get-document-keys.sh
         source steps/export-document-keys.sh
         source steps/import-document-keys-to-data-store.sh
         source steps/migrate-staging-table.sh
-        source steps/clean-up.sh
+#        source steps/clean-up.sh
         ;;
     *)
         echo "[*] Unrecognised environment: $ENV"

@@ -41,7 +41,7 @@ case "$ENV$OPERATION$DBTYPE" in
         DATA_STORE_TEMP_USER="ccdtemp"
         DATA_STORE_TEMP_PASS="ccdtemp"
         ;;
-    aatexportdocumentkeysrealtime)
+    aatexportdocumentidsrealtime)
         DEFINITION_STORE_HOST="ccd-definition-store-data-migration.postgres.database.azure.com"
         DEFINITION_STORE_PORT="5432"
         DEFINITION_STORE_NAME="ccd_definition_store"
