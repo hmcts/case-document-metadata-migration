@@ -4,10 +4,16 @@
 # STEP 2: Check the arguments that are passed to the script
 ##
 
-while getopts 'e:j:d:f:t:s:' FLAG; do
+while getopts 'e:o:i:j:d:f:t:s:' FLAG; do
     case "${FLAG}" in
         e)
             ENV="${OPTARG}"
+            ;;
+        o)
+            OPERATION="${OPTARG}"
+            ;;
+        i)
+            DBTYPE="${OPTARG}"
             ;;
         j)
             JURISDICTION="${OPTARG}"
@@ -29,6 +35,7 @@ while getopts 'e:j:d:f:t:s:' FLAG; do
             echo
             echo "    Mandatory flags"
             echo "    -e [env]"
+            echo "    -o [operation]"
             echo
             echo "    Optional flags"
             echo "    -j [jurisdiction]"
