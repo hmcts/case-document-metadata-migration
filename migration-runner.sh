@@ -92,7 +92,7 @@ case "$ENV$OPERATION$DBTYPE" in
         ;;
     aatexportdocumentidsrealtime)
         source steps/get-database-credentials.sh
-        source steps/start-local-postgres-server.sh
+#        source steps/start-local-postgres-server.sh
         source steps/get-document-keys.sh
         source steps/export-document-keys.sh
         source steps/import-document-keys-to-data-store.sh

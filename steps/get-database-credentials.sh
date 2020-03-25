@@ -48,14 +48,10 @@ case "$ENV$OPERATION$DBTYPE" in
         DEFINITION_STORE_USER="ccd@ccd-definition-store-data-migration"
         DEFINITION_STORE_PASS='\6T8(D${;5T/Dxy)(\'
         DATA_STORE_HOST="ccd-data-store-data-migration.postgres.database.azure.com"
-        DATA_STORE_PORT="5433"
+        DATA_STORE_PORT="5432"
         DATA_STORE_NAME="ccd_data_store"
         DATA_STORE_USER="ccd@ccd-data-store-data-migration"
         DATA_STORE_PASS='\=MyZ{4u$(zm%5.:!\'
-        DEFINITION_STORE_TEMP_USER=""
-        DEFINITION_STORE_ADMIN_USER=""
-        DATA_STORE_ADMIN_USER=""
-        DATA_STORE_TEMP_USER=""
         ;;
     aat)
         DEFINITION_STORE_HOST=$(az keyvault secret show)
