@@ -90,6 +90,12 @@ case "$ENV$OPERATION$DBTYPE" in
         source steps/migrate-staging-table.sh
 #        source steps/clean-up.sh
         ;;
+    localexportrecursivedocumentidssnapshotdb)
+        source steps/get-database-credentials.sh
+        source steps/start-local-postgres-server.sh
+        source steps/recursive-staging-table.sh
+#        source steps/clean-up.sh
+        ;;
     aatexportdocumentidsrealtime)
         source steps/get-database-credentials.sh
 #        source steps/start-local-postgres-server.sh
@@ -97,6 +103,11 @@ case "$ENV$OPERATION$DBTYPE" in
         source steps/export-document-keys.sh
         source steps/import-document-keys-to-data-store.sh
         source steps/migrate-staging-table.sh
+#        source steps/clean-up.sh
+        ;;
+    aatexportrecursivedocumentidsrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-staging-table.sh
 #        source steps/clean-up.sh
         ;;
     *)
