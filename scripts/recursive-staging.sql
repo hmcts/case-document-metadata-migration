@@ -48,30 +48,13 @@ from foo
 where k = 'document_url'
 or    k = 'document_binary_url';
 
-drop view if exists most_recent_document_date cascade;
--- Pick out the most recent date for every document ID
-create view most_recent_document_date as
-select document_id, max(event_timestamp) as event_timestamp
-from all_documents
-group by document_id;
-
-drop view if exists latest_document_metadata cascade;
--- Get the metadata for the most recent version of each document.
--- (There's probably a more elegant way to do this, using partitions, having, etc.)
-create view latest_document_metadata as
-select docs.*
-from all_documents docs,
-     most_recent_document_date recent
-where docs.document_id = recent.document_id
-and   docs.event_timestamp = recent.event_timestamp;
-
 --
 -- We should see documents 1-6 for JURISDICTIONA, and A-E + 2 for JURISDICTIONB.
 -- Multiple entries in each case, since we have binary and normal URLs.
 --
 --\COPY recursive_staging FROM 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
 INSERT INTO recursive_staging (case_id, case_type_id, jurisdiction, document_id, event_timestamp)
-    SELECT DISTINCT case_id , case_type as case_type_id , jurisdiction, document_id,event_timestamp
+    SELECT case_id , case_type as case_type_id , jurisdiction, document_id,event_timestamp
     from all_documents
     where all_documents.k='document_url'
 ON CONFLICT DO NOTHING;

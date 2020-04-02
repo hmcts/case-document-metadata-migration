@@ -41,7 +41,8 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidsrealtime" ]; then
       if [ $endRecord  -gt $maxCaseId ]
         then
           endRecord=$maxCaseId;
-          echo "Execute SQL startRecord= $startRecord and endRecord=$endRecord"
+          echo "Inside Break Execute SQL startRecord= $startRecord and endRecord=$endRecord"
+          psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       break
       fi
     done
@@ -59,7 +60,7 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
     psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W  -f scripts/pre-recursive-staging.sql
     declare -i startRecord="0";
     startRecord=$minCaseId;
-    declare -i countOfRecords=10000;
+    declare -i countOfRecords=3;
     declare -i endRecord=$startRecord+$countOfRecords;
     declare -i maxCounter=$maxCaseId;
     while [ $startRecord -lt $maxCaseId ]
@@ -71,7 +72,8 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
       if [ $endRecord  -gt $maxCaseId ]
         then
           endRecord=$maxCaseId;
-          echo "Execute SQL startRecord= $startRecord and endRecord=$endRecord"
+          echo "Inside Break startRecord= $startRecord and endRecord=$endRecord"
+          psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       break
       fi
     done
