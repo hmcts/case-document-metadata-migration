@@ -30,8 +30,8 @@ with recursive foo as
 	select jurisdiction, case_type, case_id, event_timestamp, (entry).key as k, (entry).value as v
 	from
 	(
-		select cd.jurisdiction as jurisdiction, ce.case_type_id as case_type , ce.case_data_id as case_id, cd.last_state_modified_date as event_timestamp, jsonb_each(ce.data) as entry
-		from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id
+		select cd.jurisdiction as jurisdiction, ce.case_type_id as case_type , ce.case_data_id as case_id, ce.created_date as event_timestamp, jsonb_each(ce.data) as entry
+		from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD
 	) e
 	union
 	select jurisdiction, case_type, case_id, event_timestamp, (entry)."key" as k, (entry)."value" as v
@@ -65,28 +65,18 @@ from all_documents docs,
 where docs.document_id = recent.document_id
 and   docs.event_timestamp = recent.event_timestamp;
 
-drop table if exists recursive_staging cascade;
-CREATE TABLE recursive_staging (
-    id SERIAL PRIMARY KEY,
-    case_id BIGINT,
-    case_type_id VARCHAR,
-    jurisdiction VARCHAR,
-    document_id VARCHAR,
-    event_timestamp TIMESTAMP
-);
-
 --
 -- We should see documents 1-6 for JURISDICTIONA, and A-E + 2 for JURISDICTIONB.
 -- Multiple entries in each case, since we have binary and normal URLs.
 --
-\COPY recursive_staging FROM 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
+--\COPY recursive_staging FROM 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
 INSERT INTO recursive_staging (case_id, case_type_id, jurisdiction, document_id, event_timestamp)
     SELECT DISTINCT case_id , case_type as case_type_id , jurisdiction, document_id,event_timestamp
     from all_documents
     where all_documents.k='document_url'
 ON CONFLICT DO NOTHING;
 
-\COPY recursive_staging TO 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
+--\COPY recursive_staging TO 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
 
 COMMIT;
 
