@@ -96,6 +96,12 @@ case "$ENV$OPERATION$DBTYPE" in
         source steps/recursive-staging-table.sh
 #        source steps/clean-up.sh
         ;;
+    localexportrecursiveexceptionsnapshotdb)
+        source steps/get-database-credentials.sh
+        source steps/start-local-postgres-server.sh
+        source steps/recursive-exception-reports.sh
+#        source steps/clean-up.sh
+        ;;
     aatexportdocumentidsrealtime)
         source steps/get-database-credentials.sh
 #        source steps/start-local-postgres-server.sh
@@ -108,6 +114,11 @@ case "$ENV$OPERATION$DBTYPE" in
     aatexportrecursivedocumentidsrealtime)
         source steps/get-database-credentials.sh
         source steps/recursive-staging-table.sh
+#        source steps/clean-up.sh
+        ;;
+    aatexportrecursiveexceptionrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-exception-reports.sh
 #        source steps/clean-up.sh
         ;;
     *)
