@@ -53,14 +53,14 @@ fi
 if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
     echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_TEMP_HOST  $DATA_STORE_TEMP_PORT $DATA_STORE_TEMP_NAME $DATA_STORE_TEMP_USER"
     export PGPASSWORD="$DATA_STORE_TEMP_PASS"
-    minCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select min(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id;")
+    minCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select min(ce.case_data_id) from case_event ce;")
     echo "mincaseId : $minCaseId"
-    maxCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select max(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id;")
+    maxCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select max(ce.case_data_id) from case_event ce;")
     echo "maxcaseId : $maxCaseId"
     psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W  -f scripts/pre-recursive-staging.sql
     declare -i startRecord="0";
     startRecord=$minCaseId;
-    declare -i countOfRecords=3;
+    declare -i countOfRecords=8;
     declare -i endRecord=$startRecord+$countOfRecords;
     declare -i maxCounter=$maxCaseId;
     while [ $startRecord -lt $maxCaseId ]
@@ -81,10 +81,12 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
     unset PGPASSWORD
 fi
 
+cp tmp/allevents.csv allevents-$(date "+%Y%m%d-%H%M%S").csv
+cp tmp/problemcases.csv problemcases-$(date "+%Y%m%d-%H%M%S").csv
 
-if [ ! -z "$STAGING_TABLE" ]; then
-    cp tmp/recursive-staging.csv "$STAGING_TABLE"
-else
-    cp tmp/recursive-staging.csv recursive-staging-$(date "+%Y%m%d-%H%M%S").csv
-fi
+#if [ ! -z "$STAGING_TABLE" ]; then
+#    cp tmp/recursive-staging.csv "$STAGING_TABLE"
+#else
+#    cp tmp/recursive-staging.csv recursive-staging-$(date "+%Y%m%d-%H%M%S").csv
+#fi
 echo "[done]"
