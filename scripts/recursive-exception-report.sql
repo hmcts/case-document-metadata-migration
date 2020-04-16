@@ -71,7 +71,9 @@ and   e1.event_timestamp < e2.event_timestamp
 and   e1.document_id = e2.document_id
 and   e1.doc_present
 and   e2.doc_present
-and   cd.id = e1.case_id;
+and   cd.id = e1.case_id
+and   cd.last_modified=e1.event_timestamp;
+
 
 \COPY problem_cases TO 'tmp/problemcases.csv' DELIMITER ',' CSV HEADER;
 \COPY problem_documentids TO 'tmp/problemdocumentids.csv' DELIMITER ',' CSV HEADER;
