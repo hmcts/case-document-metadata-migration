@@ -1,6 +1,8 @@
 BEGIN;
-\COPY recursive_staging FROM 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
 
-\COPY recursive_staging TO 'tmp/recursive-staging.csv' DELIMITER ',' CSV HEADER;
+create index all_events_idx on all_events (case_id, document_id, event_timestamp);
+
+
+\COPY all_events TO 'tmp/allevents.csv' DELIMITER ',' CSV HEADER;
 
 COMMIT;
