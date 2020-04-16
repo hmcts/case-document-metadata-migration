@@ -1,6 +1,3 @@
-# Case document metadata migration
-
-### Usage
  
  #Usage on Local Environment
  
@@ -35,4 +32,5 @@
 
 ##Generate Exception Report from Case Data Using Recursive Method (Option 2)
 ###./migration-runner.sh -e aat -o exportrecursiveexception -i realtime
+
 
