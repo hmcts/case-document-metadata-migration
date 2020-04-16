@@ -1,6 +1,3 @@
-# Case document metadata migration
-
-### Usage
  
  Usage on Local Environment
  
