@@ -67,12 +67,11 @@ from all_events e1,
               all_events e2,
               case_data cd
 where e1.case_id != e2.case_id
-and   e1.event_timestamp < e2.event_timestamp
+--and   e1.event_timestamp < e2.event_timestamp
 and   e1.document_id = e2.document_id
 and   e1.doc_present
 and   e2.doc_present
-and   cd.id = e1.case_id
-and   cd.last_modified=e1.event_timestamp;
+and   cd.id = e1.case_id;
 
 
 \COPY problem_cases TO 'tmp/problemcases.csv' DELIMITER ',' CSV HEADER;

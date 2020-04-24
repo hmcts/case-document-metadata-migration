@@ -82,6 +82,7 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
 fi
 
 cp tmp/allevents.csv allevents-$(date "+%Y%m%d-%H%M%S").csv
+cp tmp/docstoreexport.csv docstoreexport-$(date "+%Y%m%d-%H%M%S").csv
 #cp tmp/problemcases.csv problemcases-$(date "+%Y%m%d-%H%M%S").csv
 
 #if [ ! -z "$STAGING_TABLE" ]; then
