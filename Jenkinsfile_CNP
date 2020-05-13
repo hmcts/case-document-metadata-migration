@@ -1,0 +1,5 @@
+#!groovy
+//noinspection GroovyUnusedAssignment
+@Library("Infrastructure") _
+
+withInfraPipeline('ccd') {}
