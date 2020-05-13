@@ -12,12 +12,14 @@ locals {
   tags = "${merge(local.common_tags, local.storage_account_tags)}"
 }
 
+# Create Resource Group
 resource "azurerm_resource_group" "rg" {
   name      = "${var.product}-${var.env}-rg"
   location  = "${var.location}"
   tags      = "${local.tags}"
 }
 
+# Create Key Vault
 module "rd_key_vault" {
   source                      = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
   name                        = "${var.product}-${var.env}"
@@ -34,6 +36,7 @@ module "rd_key_vault" {
   managed_identity_object_id  = "${var.managed_identity_object_id}"
 }
 
+# Create Storage Account
 module "storage_account" {
   source                    = "git@github.com:hmcts/cnp-module-storage-account?ref=master"
   storage_account_name      = "${replace("${var.product}${var.env}", "-", "")}"
