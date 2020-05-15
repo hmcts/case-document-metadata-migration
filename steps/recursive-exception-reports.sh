@@ -33,8 +33,8 @@ if [ $OPERATION$DBTYPE = "exportrecursiveexceptionsnapshotdb" ]; then
     unset PGPASSWORD
 fi
 
-cp tmp/problemdocumentids.csv problemdocumentids-$(date "+%Y%m%d-%H%M%S").csv
-cp tmp/problemcases.csv problemcases-$(date "+%Y%m%d-%H%M%S").csv
+cp tmp/problemdocumentids.csv problemdocumentids-${JURISDICTION}-$(date "+%Y%m%d-%H%M%S").csv
+cp tmp/problemcases.csv problemcases-${JURISDICTION}-$(date "+%Y%m%d-%H%M%S").csv
 
 #if [ ! -z "$STAGING_TABLE" ]; then
 #    cp tmp/recursive-staging.csv "$STAGING_TABLE"

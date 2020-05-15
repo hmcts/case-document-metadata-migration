@@ -30,7 +30,8 @@ export PGPASSWORD="$DEFINITION_STORE_TEMP_PASS"
 psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -w -f "$DATA_STORE_SNAPSHOT"
 echo "STEP 4 DONE"
 unset PGPASSWORD
-echo "Usage for  exporting document keys in realtimedb : ./migration-runner.sh -e $ENV -o exportdocumentids -i $DBTYPE"
+echo "Usage for  exporting recursive document keys in realtimedb : ./migration-runner.sh -e $ENV -o exportrecursivedocumentids -i $DBTYPE"
+echo "Usage for  exporting recursive document exceptions in realtimedb : ./migration-runner.sh -e $ENV -o exportrecursiveexception -i $DBTYPE"
 #echo $definition_store_snapshot
 #echo $data_store_snapshot
 
