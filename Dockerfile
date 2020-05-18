@@ -1,7 +1,16 @@
 ARG APP_INSIGHTS_AGENT_VERSION=2.5.1-BETA
-FROM hmctspublic.azurecr.io/base/java:openjdk-8-distroless-1.2
+FROM node:12-alpine
 
-COPY lib/AI-Agent.xml /opt/app/
-COPY build/libs/rd-professional-api.jar /opt/app/
+RUN apk update && apk add --no-cache bash
 
-ENTRYPOINT [ "/bin/bash" ]
+WORKDIR /app
+
+RUN mkdir -p scripts steps tmp
+
+COPY lib/AI-Agent.xml /app/
+COPY scripts /app/scripts
+COPY steps /app/steps
+COPY tmp /app/tmp
+COPY *.sh /app/
+
+ENTRYPOINT ["bash", "/app/test.sh"]
