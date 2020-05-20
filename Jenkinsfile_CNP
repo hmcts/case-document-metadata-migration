@@ -1,5 +1,14 @@
 #!groovy
 
+properties(
+    [
+        [
+            $class: 'GithubProjectProperty', 
+            projectUrlStr: 'https://github.com/hmcts/case-document-metadata-migration'
+        ],
+        pipelineTriggers([[$class: 'GitHubPushTrigger']])]
+)
+
 @Library("Infrastructure")
 
 def type = "node"
