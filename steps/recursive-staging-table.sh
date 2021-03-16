@@ -24,9 +24,9 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidsrealtime" ]; then
     export PGPASSWORD="$DATA_STORE_PASS"
     minCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -W  -c "select min(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
     echo "mincaseId : $minCaseId"
-    maxCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -W  -c "select max(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
+    maxCaseId=$(psql -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -c "select max(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
     echo "maxcaseId : $maxCaseId"
-    psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W  -f scripts/pre-recursive-staging.sql
+    psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/pre-recursive-staging.sql
     declare -i startRecord="0";
     startRecord=$minCaseId;
     declare -i countOfRecords=50000;
@@ -35,29 +35,29 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidsrealtime" ]; then
     while [ $startRecord -lt $maxCaseId ]
     do
       echo " After While Execute SQL startRecord= $startRecord and endRecord=$endRecord"
-      psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
+      psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       startRecord=$endRecord;
       endRecord=$endRecord+$countOfRecords;
       if [ $endRecord  -gt $maxCaseId ]
         then
           endRecord=$maxCaseId;
           echo "Inside Break Execute SQL startRecord= $startRecord and endRecord=$endRecord"
-          psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
+          psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       break
       fi
     done
-    psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W  -f scripts/post-recursive-staging.sql
+    psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/post-recursive-staging.sql
     unset PGPASSWORD
 fi
 
 if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
-    echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_TEMP_HOST  $DATA_STORE_TEMP_PORT $DATA_STORE_TEMP_NAME $DATA_STORE_TEMP_USER"
+    echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_TEMP_HOST  $DATA_STORE_TEMP_PORT $DATA_STORE_TEMP_NAME $DATA_STORE_TEMP_USER jurisdiction $JURISDICTION"
     export PGPASSWORD="$DATA_STORE_TEMP_PASS"
-    minCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select min(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
+    minCaseId=$(psql -X -A -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -c "select min(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
     echo "mincaseId : $minCaseId"
-    maxCaseId=$(psql -X -A sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -W  -c "select max(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
+    maxCaseId=$(psql -X -A -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -t -U "$DATA_STORE_TEMP_USER" -c "select max(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
     echo "maxcaseId : $maxCaseId"
-    psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W  -f scripts/pre-recursive-staging.sql
+    psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -f scripts/pre-recursive-staging.sql
     declare -i startRecord="0";
     startRecord=$minCaseId;
     declare -i countOfRecords=40;
@@ -66,18 +66,18 @@ if [ $OPERATION$DBTYPE = "exportrecursivedocumentidssnapshotdb" ]; then
     while [ $startRecord -lt $maxCaseId ]
     do
       echo " After While Execute SQL startRecord= $startRecord and endRecord=$endRecord"
-      psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
+      psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       startRecord=$endRecord;
       endRecord=$endRecord+$countOfRecords;
       if [ $endRecord  -gt $maxCaseId ]
         then
           endRecord=$maxCaseId;
           echo "Inside Break startRecord= $startRecord and endRecord=$endRecord"
-          psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
+          psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
       break
       fi
     done
-    psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W  -f scripts/post-recursive-staging.sql
+    psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -f scripts/post-recursive-staging.sql
     unset PGPASSWORD
 fi
 
