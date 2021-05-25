@@ -21,8 +21,8 @@ case "$ENV$OPERATION$DBTYPE" in
         ;;
     localexportrecursivedocumentidssnapshotdb)
         DATA_STORE_TEMP_HOST="localhost"
-        DATA_STORE_TEMP_PORT="5055"
-        DATA_STORE_TEMP_NAME="ccd_data_temp_2"
+        DATA_STORE_TEMP_PORT="5050"
+        DATA_STORE_TEMP_NAME="ccd_data_temp"
         DATA_STORE_TEMP_USER="ccdtemp"
         DATA_STORE_TEMP_PASS="ccdtemp"
         ;;
