@@ -13,16 +13,6 @@ FROM_DATE=
 DEFINITION_STORE_SNAPSHOT=
 DATA_STORE_SNAPSHOT=
 STAGING_TABLE=
-DEFINITION_STORE_HOST=
-DEFINITION_STORE_PORT=
-DEFINITION_STORE_NAME=
-DEFINITION_STORE_USER=
-DEFINITION_STORE_PASS=
-DEFINITION_STORE_TEMP_HOST=
-DEFINITION_STORE_TEMP_PORT=
-DEFINITION_STORE_TEMP_NAME=
-DEFINITION_STORE_TEMP_USER=
-DEFINITION_STORE_TEMP_PASS=
 DATA_STORE_HOST=
 DATA_STORE_PORT=
 DATA_STORE_NAME=
@@ -52,7 +42,6 @@ if [ -z "$ENV" ]; then
     echo "    Optional flags"
     echo "    -j [jurisdiction]"
     echo "    -d [from_date]"
-    echo "    -f [definition_store_snapshot]"
     echo "    -t [data_store_snapshot]"
     echo "    -s [staging_table]"
     echo

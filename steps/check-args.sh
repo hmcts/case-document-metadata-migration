@@ -21,9 +21,6 @@ while getopts 'e:o:i:j:d:f:t:s:' FLAG; do
         d)
             FROM_DATE="${OPTARG}"
             ;;
-        f)
-            DEFINITION_STORE_SNAPSHOT="${OPTARG}"
-            ;;
         t)
             DATA_STORE_SNAPSHOT="${OPTARG}"
             ;;
@@ -40,7 +37,6 @@ while getopts 'e:o:i:j:d:f:t:s:' FLAG; do
             echo "    Optional flags"
             echo "    -j [jurisdiction]"
             echo "    -d [from_date]"
-            echo "    -f [definition_store_snapshot]"
             echo "    -t [data_store_snapshot]"
             echo "    -s [staging_table]"
             echo
