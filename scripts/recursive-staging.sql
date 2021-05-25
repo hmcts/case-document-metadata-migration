@@ -80,7 +80,4 @@ insert into doc_store_export(jurisdiction,case_type_id,case_id,document_id,docum
         ) ae2 on ae2.document_id = ae1.document_id and ae1.event_timestamp = ae2.mts
         ORDER BY case_id,document_id, event_timestamp;
 
---select * from problem_cases;
---select * from all_events;
-
 COMMIT;
