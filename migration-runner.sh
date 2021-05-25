@@ -63,63 +63,33 @@ case "$ENV$OPERATION$DBTYPE" in
     localtakesnapshotsrealtime)
         source steps/get-database-credentials.sh
         source steps/take-database-snapshots.sh
-#        source steps/start-local-postgres-server.sh
-#        source steps/load-database-snapshots.sh
-#        source steps/get-document-keys.sh
-#        source steps/export-document-keys.sh
-#        source steps/import-document-keys-to-data-store.sh
-#        source steps/migrate-staging-table.sh
-#        source steps/clean-up.sh
         ;;
     localloadsnapshotssnapshotdb)
         source steps/get-database-credentials.sh
         source steps/start-local-postgres-server.sh
         source steps/load-database-snapshots.sh
-#        source steps/get-document-keys.sh
-#        source steps/export-document-keys.sh
-#        source steps/import-document-keys-to-data-store.sh
-#        source steps/migrate-staging-table.sh
-#        source steps/clean-up.sh
-        ;;
-    localexportdocumentidssnapshotdb)
-        source steps/get-database-credentials.sh
-        source steps/start-local-postgres-server.sh
-        source steps/get-document-keys.sh
-        source steps/export-document-keys.sh
-        source steps/import-document-keys-to-data-store.sh
-        source steps/migrate-staging-table.sh
-#        source steps/clean-up.sh
         ;;
     localexportrecursivedocumentidssnapshotdb)
         source steps/get-database-credentials.sh
         source steps/start-local-postgres-server.sh
         source steps/recursive-staging-table.sh
-#        source steps/clean-up.sh
         ;;
     localexportrecursiveexceptionsnapshotdb)
         source steps/get-database-credentials.sh
         source steps/start-local-postgres-server.sh
         source steps/recursive-exception-reports.sh
-#        source steps/clean-up.sh
         ;;
-    aatexportdocumentidsrealtime)
+    localexportrecursivedocumentidsrealtime)
         source steps/get-database-credentials.sh
-#        source steps/start-local-postgres-server.sh
-        source steps/get-document-keys.sh
-        source steps/export-document-keys.sh
-        source steps/import-document-keys-to-data-store.sh
-        source steps/migrate-staging-table.sh
-#        source steps/clean-up.sh
+        source steps/recursive-staging-table.sh
         ;;
     aatexportrecursivedocumentidsrealtime)
         source steps/get-database-credentials.sh
         source steps/recursive-staging-table.sh
-#        source steps/clean-up.sh
         ;;
     aatexportrecursiveexceptionrealtime)
         source steps/get-database-credentials.sh
         source steps/recursive-exception-reports.sh
-#        source steps/clean-up.sh
         ;;
     *)
         echo "[*] Unrecognised environment: $ENV"
