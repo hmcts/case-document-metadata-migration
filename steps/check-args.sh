@@ -4,7 +4,7 @@
 # STEP 2: Check the arguments that are passed to the script
 ##
 
-while getopts 'e:o:i:j:d:f:t:s:' FLAG; do
+while getopts 'e:o:i:j:d:t:s:' FLAG; do
     case "${FLAG}" in
         e)
             ENV="${OPTARG}"
