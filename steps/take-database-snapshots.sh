@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# STEP 4: If one or more database snapshots are not provided as input arguments, create new snapshots
+# If one or more database snapshots are not provided as input arguments, create new snapshots
 # in the current state of the CCD Data Store database
 ##
 if [[ -z "$DATA_STORE_SNAPSHOT" ]]; then

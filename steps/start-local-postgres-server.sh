@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# STEP 5: Start local postgres server if not already running
+# Start local postgres server if not already running
 ##
 
 mkdir -p tmp

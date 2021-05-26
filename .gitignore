@@ -1,3 +1,5 @@
 snapshot-*
 *.csv
 .idea
+databaseConfiguration.txt
+tmp/
