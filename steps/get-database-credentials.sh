@@ -10,7 +10,6 @@ case "$ENV$OPERATION$DBTYPE" in
         DATA_STORE_PORT="5050"
         DATA_STORE_NAME="ccd_data"
         DATA_STORE_USER="ccd"
-        DATA_STORE_PASS="ccd"
         ;;
     localloadsnapshotssnapshotdb)
         DATA_STORE_TEMP_HOST="localhost"
@@ -38,28 +37,54 @@ case "$ENV$OPERATION$DBTYPE" in
         DATA_STORE_PORT="5050"
         DATA_STORE_NAME="ccd_data_temp"
         DATA_STORE_USER="ccdtemp"
-        DATA_STORE_PASS="ccdtemp"
-        ;;
-    aatexportdocumentidsrealtime)
-        DATA_STORE_HOST="ccd-data-store-data-migration.postgres.database.azure.com"
-        DATA_STORE_PORT="5432"
-        DATA_STORE_NAME="ccd_data_store"
-        DATA_STORE_USER="ccd@ccd-data-store-data-migration"
-        DATA_STORE_PASS='\=MyZ{4u$(zm%5.:!\'
         ;;
     aatexportrecursivedocumentidsrealtime)
-        DATA_STORE_HOST="ccd-data-store-data-migration.postgres.database.azure.com"
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-aat.postgres.database.azure.com"
         DATA_STORE_PORT="5432"
         DATA_STORE_NAME="ccd_data_store"
-        DATA_STORE_USER="ccd@ccd-data-store-data-migration"
-        DATA_STORE_PASS='\=MyZ{4u$(zm%5.:!\'
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-aat"
         ;;
     aatexportrecursiveexceptionrealtime)
-        DATA_STORE_HOST="ccd-data-store-data-migration.postgres.database.azure.com"
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-aat.postgres.database.azure.com"
         DATA_STORE_PORT="5432"
         DATA_STORE_NAME="ccd_data_store"
-        DATA_STORE_USER="ccd@ccd-data-store-data-migration"
-        DATA_STORE_PASS='\=MyZ{4u$(zm%5.:!\'
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-aat"
+        ;;
+    demoexportrecursivedocumentidsrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-demo.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-demo"
+        ;;
+    demoexportrecursiveexceptionrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-demo.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-demo"
+        ;;
+    ithcexportrecursivedocumentidsrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-ithc.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-ithc"
+        ;;
+    ithcexportrecursiveexceptionrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-ithc.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-ithc"
+        ;;
+    perftestexportrecursivedocumentidsrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-perftest.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-perftest"
+        ;;
+    perftestexportrecursiveexceptionrealtime)
+        DATA_STORE_HOST="ccd-data-store-api-postgres-db-v11-perftest.postgres.database.azure.com"
+        DATA_STORE_PORT="5432"
+        DATA_STORE_NAME="ccd_data_store"
+        DATA_STORE_USER="ccd@ccd-data-store-api-postgres-db-v11-perftest"
         ;;
     aat)
         DATA_STORE_HOST=$(az keyvault secret show)

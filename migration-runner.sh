@@ -10,7 +10,6 @@ OPERATION=
 DBTYPE=
 JURISDICTION=
 FROM_DATE=
-DEFINITION_STORE_SNAPSHOT=
 DATA_STORE_SNAPSHOT=
 STAGING_TABLE=
 DATA_STORE_HOST=
@@ -44,6 +43,7 @@ if [ -z "$ENV" ]; then
     echo "    -d [from_date]"
     echo "    -t [data_store_snapshot]"
     echo "    -s [staging_table]"
+    echo "    -p [dbPassword]"
     echo
     exit 1
 fi
@@ -77,6 +77,30 @@ case "$ENV$OPERATION$DBTYPE" in
         source steps/recursive-staging-table.sh
         ;;
     aatexportrecursiveexceptionrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-exception-reports.sh
+        ;;
+    demoexportrecursivedocumentidsrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-staging-table.sh
+        ;;
+    demoexportrecursiveexceptionrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-exception-reports.sh
+        ;;
+    ithcexportrecursivedocumentidsrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-staging-table.sh
+        ;;
+    ithcexportrecursiveexceptionrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-exception-reports.sh
+        ;;
+    perftestexportrecursivedocumentidsrealtime)
+        source steps/get-database-credentials.sh
+        source steps/recursive-staging-table.sh
+        ;;
+    perftestexportrecursiveexceptionrealtime)
         source steps/get-database-credentials.sh
         source steps/recursive-exception-reports.sh
         ;;

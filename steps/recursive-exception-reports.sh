@@ -21,14 +21,14 @@ echo -n "[*] Populating staging table and exporting CSV... "
 if [ $OPERATION$DBTYPE = "exportrecursiveexceptionrealtime" ]; then
     echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST  $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
     export PGPASSWORD="$DATA_STORE_PASS"
-    psql sslmode=true -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -W  -f scripts/recursive-exception-report.sql
+    psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/recursive-exception-report.sql
     unset PGPASSWORD
 fi
 
 if [ $OPERATION$DBTYPE = "exportrecursiveexceptionsnapshotdb" ]; then
     echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_TEMP_HOST  $DATA_STORE_TEMP_PORT $DATA_STORE_TEMP_NAME $DATA_STORE_TEMP_USER"
     export PGPASSWORD="$DATA_STORE_TEMP_PASS"
-    psql sslmode=true -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -W  -f scripts/recursive-exception-report.sql
+    psql -h "$DATA_STORE_TEMP_HOST" -p "$DATA_STORE_TEMP_PORT" -d "$DATA_STORE_TEMP_NAME" -U "$DATA_STORE_TEMP_USER" -f scripts/recursive-exception-report.sql
     unset PGPASSWORD
 fi
 

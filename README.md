@@ -6,7 +6,7 @@
  ###    Create Snapshot Users 
  ###    Update Scripts with Snapshot Database Credentials
  
- ## Take Snapshots of CCD Definition & CCD Data : 
+ ## Take Snapshots of CCD Data Store data : 
  ### ./migration-runner.sh -e local -o takesnapshots -i realtime
  
  ## Load Snapshots of CCD Data: 
