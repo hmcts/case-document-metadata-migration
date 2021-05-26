@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##
-# STEP 1: Check that the required software is installed on the host machine
+# Check that the required software is installed on the host machine
 ##
 
 IS_REQUIRED_SOFTWARE_INSTALLED=true

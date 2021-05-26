@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ##
-# STEP 2: Check the arguments that are passed to the script
+# Check the arguments that are passed to the script
 ##
 
-while getopts 'e:o:i:j:d:t:s:p:' FLAG; do
+while getopts 'e:o:i:j:d:t:s:' FLAG; do
     case "${FLAG}" in
         e)
             ENV="${OPTARG}"
@@ -27,9 +27,6 @@ while getopts 'e:o:i:j:d:t:s:p:' FLAG; do
         s)
             STAGING_TABLE="${OPTARG}"
             ;;
-        p)
-            DATA_STORE_PASS="${OPTARG}"
-            ;;
         *)
             echo "[*] Usage: $0 -e [env]"
             echo
@@ -42,7 +39,6 @@ while getopts 'e:o:i:j:d:t:s:p:' FLAG; do
             echo "    -d [from_date]"
             echo "    -t [data_store_snapshot]"
             echo "    -s [staging_table]"
-            echo "    -p [dbPassword]"
             echo
             exit 1
             ;;
