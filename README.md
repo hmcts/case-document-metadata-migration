@@ -17,7 +17,7 @@ Update `databaseConfiguration.txt` with the following database properties
    
  Run the following command to set the relevant environment variables with the configuration values
  
- `source databaseConfiguration.txt`
+ `source set-environment-variables.sh`
  
   
  ## Take Snapshots of CCD Data Store data : 
