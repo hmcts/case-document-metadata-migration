@@ -26,19 +26,10 @@ Run the following command to set the relevant environment variables with the con
 > - create and populate temporary tables
 > - run recursive sql statements that may be detrimental to the performance of the targeted database
  
+## Generate Document Id’s from Case Data Using Recursive Method 
+ `./migration-runner.sh -o exportrecursivedocumentids`
  
-## Usage on Local Environment 
-### Generate Document Id’s from Case Data Using Recursive Method 
- `./migration-runner.sh -e local -o exportrecursivedocumentids`
- 
-### Generate Exception Report from Case Data Using Recursive Method 
- `./migration-runner.sh -e local -o exportrecursiveexception`
- 
-## Usage on AAT Environment
-### Generate Document Id’s from Case Data Using Recursive Method
-`./migration-runner.sh -e aat -o exportrecursivedocumentids`
-
-### Generate Exception Report from Case Data Using Recursive Method
-`./migration-runner.sh -e aat -o exportrecursiveexception`
+## Generate Exception Report from Case Data Using Recursive Method 
+ `./migration-runner.sh -o exportrecursiveexception`
 
 

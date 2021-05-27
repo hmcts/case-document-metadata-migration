@@ -15,7 +15,7 @@ fi
 
 echo -n "[*] Populating staging table and exporting CSV... "
 
-echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST  $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
+echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
 export PGPASSWORD="$DATA_STORE_PASS"
 minCaseId=$(psql sslmode=true -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -c "select min(cd.id) from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.jurisdiction LIKE '${JURISDICTION}';")
 echo "mincaseId : $minCaseId"
