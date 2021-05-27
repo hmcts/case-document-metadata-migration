@@ -36,7 +36,7 @@ Run the following command to set the relevant environment variables with the con
  
 ## Usage on AAT Environment
 ### Generate Document Id’s from Case Data Using Recursive Method
-`./migration-runner.sh -e aat -o √`
+`./migration-runner.sh -e aat -o exportrecursivedocumentids`
 
 ### Generate Exception Report from Case Data Using Recursive Method
 `./migration-runner.sh -e aat -o exportrecursiveexception`
