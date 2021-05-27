@@ -20,9 +20,9 @@ while getopts 'o:j:s:' FLAG; do
             echo
             echo "    Mandatory flags"
             echo "    -o [operation]"
+            echo "    -j [jurisdiction]"
             echo
             echo "    Optional flags"
-            echo "    -j [jurisdiction]"
             echo "    -s [staging_table]"
             echo
             exit 1
