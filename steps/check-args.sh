@@ -4,7 +4,7 @@
 # Check the arguments that are passed to the script
 ##
 
-while getopts 'e:o:i:j:d:t:s:' FLAG; do
+while getopts 'e:o:j:s:' FLAG; do
     case "${FLAG}" in
         e)
             ENV="${OPTARG}"
@@ -12,17 +12,8 @@ while getopts 'e:o:i:j:d:t:s:' FLAG; do
         o)
             OPERATION="${OPTARG}"
             ;;
-        i)
-            DBTYPE="${OPTARG}"
-            ;;
         j)
             JURISDICTION="${OPTARG}"
-            ;;
-        d)
-            FROM_DATE="${OPTARG}"
-            ;;
-        t)
-            DATA_STORE_SNAPSHOT="${OPTARG}"
             ;;
         s)
             STAGING_TABLE="${OPTARG}"
@@ -36,8 +27,6 @@ while getopts 'e:o:i:j:d:t:s:' FLAG; do
             echo
             echo "    Optional flags"
             echo "    -j [jurisdiction]"
-            echo "    -d [from_date]"
-            echo "    -t [data_store_snapshot]"
             echo "    -s [staging_table]"
             echo
             exit 1

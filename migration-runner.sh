@@ -7,17 +7,8 @@ set -o pipefail
 
 ENV=
 OPERATION=
-DBTYPE=
 JURISDICTION=
-FROM_DATE=
-DATA_STORE_SNAPSHOT=
 STAGING_TABLE=
-DATA_STORE_TEMP_HOST=
-DATA_STORE_TEMP_PORT=
-DATA_STORE_TEMP_NAME=
-DATA_STORE_TEMP_USER=
-DATA_STORE_TEMP_PASS=
-HTTP_PROXY=
 
 echo "[*] Starting"
 
@@ -27,82 +18,63 @@ source steps/check-args.sh
 if [ -z "$ENV" ]; then
     echo "[*] Usage: $0 -e [env]"
     echo "[*] Usage: $1 -o [operation]"
-    echo "[*] Usage: $2 -db [dbtype]"
     echo "    Mandatory flags"
     echo "    -e [env]"
     echo "    -o [operation]"
-    echo "    -db [dbtype]"
     echo
     echo "    Optional flags"
     echo "    -j [jurisdiction]"
-    echo "    -d [from_date]"
-    echo "    -t [data_store_snapshot]"
     echo "    -s [staging_table]"
     echo
     exit 1
 fi
 
-case "$ENV$OPERATION$DBTYPE" in
-    localtakesnapshotsrealtime)
-        source steps/take-database-snapshots.sh
-        source steps/clean-up.sh
-        ;;
-    localloadsnapshotssnapshotdb)
-        source steps/start-local-postgres-server.sh
-        source steps/load-database-snapshots.sh
-        source steps/clean-up.sh
-        ;;
-    localexportrecursivedocumentidssnapshotdb)
-        source steps/start-local-postgres-server.sh
+case "$ENV$OPERATION" in
+    localexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    localexportrecursiveexceptionsnapshotdb)
-        source steps/start-local-postgres-server.sh
+    localexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
-    localexportrecursivedocumentidsrealtime)
+    aatexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    aatexportrecursivedocumentidsrealtime)
-        source steps/recursive-staging-table.sh
-        source steps/clean-up.sh
-        ;;
-    aatexportrecursiveexceptionrealtime)
+    aatexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
-    demoexportrecursivedocumentidsrealtime)
+    demoexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    demoexportrecursiveexceptionrealtime)
+    demoexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
-    ithcexportrecursivedocumentidsrealtime)
+    ithcexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    ithcexportrecursiveexceptionrealtime)
+    ithcexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
-    perftestexportrecursivedocumentidsrealtime)
+    perftestexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    perftestexportrecursiveexceptionrealtime)
+    perftestexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
-    prodtestexportrecursivedocumentidsrealtime)
+    prodtestexportrecursivedocumentids)
         source steps/recursive-staging-table.sh
         source steps/clean-up.sh
         ;;
-    prodtestexportrecursiveexceptionrealtime)
+    prodtestexportrecursiveexception)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
