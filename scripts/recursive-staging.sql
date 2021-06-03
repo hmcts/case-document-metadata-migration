@@ -29,7 +29,7 @@ with recursive foo as
               from
               (
                            select cd.jurisdiction as jurisdiction, ce.case_type_id as case_type_id , ce.case_data_id as case_id,ce.created_date as event_timestamp, jsonb_each(ce.data) as entry
-						   from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD and cd.jurisdiction LIKE :JURISDICTION
+						   from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD and cd.jurisdiction = :JURISDICTION
               ) e
               union
               select jurisdiction, case_type_id, case_id,event_timestamp, (entry)."key" as k, (entry)."value" as v
