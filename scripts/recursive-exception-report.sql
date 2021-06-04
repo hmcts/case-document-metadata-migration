@@ -7,18 +7,18 @@ drop table if exists problem_cases cascade;
 create table problem_cases (
       jurisdiction VARCHAR,
       case_type_id VARCHAR,
-      case_id BIGINT,
+      case_reference BIGINT,
       document_id VARCHAR,
       document_url VARCHAR,
       event_timestamp_1 TIMESTAMP,
       event_timestamp_2 TIMESTAMP,
       event_timestamp_3 TIMESTAMP
 );
-insert into problem_cases (jurisdiction,case_type_id,case_id,document_id,event_timestamp_1,event_timestamp_2,event_timestamp_3)
+insert into problem_cases (jurisdiction,case_type_id,case_reference,document_id,event_timestamp_1,event_timestamp_2,event_timestamp_3)
 select
               cd.jurisdiction as jurisdiction,
               cd.case_type_id as case_type_id,
-              e1.case_id as case_id,
+              e1.case_reference as case_reference,
               e1.document_id as document_id,
               e1.event_timestamp as event_timestamp_1,
               e2.event_timestamp as event_timestamp_2,
@@ -45,23 +45,23 @@ create table problem_documentids  (
       document_id VARCHAR,
       document_url VARCHAR,
       case_type_id_1 VARCHAR,
-      case_id_1 BIGINT,
+      case_reference_1 BIGINT,
       event_timestamp_1 TIMESTAMP,
       case_type_id_2 VARCHAR,
-      case_id_2 BIGINT,
+      case_reference_2 BIGINT,
       event_timestamp_2 TIMESTAMP
 );
 
-insert into problem_documentids (jurisdiction,document_id,document_url,case_type_id_1,case_id_1,event_timestamp_1,case_type_id_2,case_id_2,event_timestamp_2)
+insert into problem_documentids (jurisdiction,document_id,document_url,case_type_id_1,case_reference_1,event_timestamp_1,case_type_id_2,case_reference_2,event_timestamp_2)
 select
               cd.jurisdiction as jurisdiction,
               e1.document_id as document_id,
               e1.document_url as document_url,
               e1.case_type_id as case_type_id_1,
-              e1.case_id as case_id_1,
+              e1.case_reference as case_reference_1,
               e1.event_timestamp as event_timestamp_1,
               e2.case_type_id as case_type_id_2,
-              e2.case_id as case_id_2,
+              e2.case_reference as case_reference_2,
               e2.event_timestamp as event_timestamp_2
 from all_events e1,
               all_events e2,
