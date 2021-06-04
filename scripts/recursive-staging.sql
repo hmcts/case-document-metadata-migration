@@ -29,14 +29,14 @@ with recursive foo as
               from
               (
                            select cd.jurisdiction as jurisdiction, ce.case_type_id as case_type_id , ce.case_data_id as case_id,ce.created_date as event_timestamp, jsonb_each(ce.data) as entry
-						   from case_data as cd LEFT JOIN case_event AS ce ON cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD and cd.jurisdiction = :JURISDICTION
+						   from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD and cd.jurisdiction = :JURISDICTION
               ) e
               union
               select jurisdiction, case_type_id, case_id,event_timestamp, (entry)."key" as k, (entry)."value" as v
               from
               (
                            select jurisdiction, case_type_id, case_id,event_timestamp, normalize_jsonb(v) as entry
-                           from foo
+                           from foo where v::text like '%document_binary_url%'
               ) e
 )
 select jurisdiction, case_type_id, case_id,event_timestamp, k, replace(regexp_replace(replace(v::text,'/binary',''),'.*/',''),'"','') as document_id, v::text as document_url
