@@ -29,7 +29,7 @@ declare -i endRecord=$startRecord+$countOfRecords;
 declare -i maxCounter=$maxCaseId;
 while [ $startRecord -lt $maxCaseId ]
 do
-  echo " After While Execute SQL startRecord= $startRecord and endRecord=$endRecord"
+  echo "$(date) : Executing case batch from startRecord= $startRecord to endRecord=$endRecord"
   psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v START_RECORD="'${startRecord}'" -v END_RECORD="'${endRecord}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
   startRecord=$endRecord;
   endRecord=$endRecord+$countOfRecords;

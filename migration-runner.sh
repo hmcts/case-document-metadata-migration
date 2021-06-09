@@ -3,7 +3,7 @@
 echo
 set -e
 set -u
-set -o pipefail
+#set -o pipefail
 
 OPERATION=
 JURISDICTION=

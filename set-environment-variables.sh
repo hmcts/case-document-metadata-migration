@@ -15,7 +15,7 @@ function set_env_variables_from_file() {
         echo "Setting env variables from [$file] on [$osName]."
         while IFS="=" read -r key value
         do
-            if [[ "Darwin" == "$osName" ]];then
+            if [[ "Windows" != "$osName" ]];then
                 command="export $key=$value"
                 $command
             else
