@@ -24,7 +24,7 @@ echo "maxcaseId : $maxCaseId"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/pre-recursive-staging.sql
 declare -i startRecord="0";
 startRecord=$minCaseId;
-declare -i countOfRecords=10000;
+declare -i countOfRecords=5000;
 declare -i endRecord=$startRecord+$countOfRecords;
 declare -i maxCounter=$maxCaseId;
 while [ $startRecord -lt $maxCaseId ]
