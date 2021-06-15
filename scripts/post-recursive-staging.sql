@@ -13,9 +13,12 @@ insert into doc_store_export(jurisdiction,case_type_id,case_reference,document_i
         ) ae2 on ae2.document_id = ae1.document_id and ae1.event_timestamp = ae2.mts
         ORDER BY case_id,document_id, event_timestamp;
 
+-- try extracting into multiple csv one for each caseType.
 \COPY doc_store_export(case_reference, case_type_id, jurisdiction, document_id) TO 'tmp/docstoreexport.csv' DELIMITER ',' CSV HEADER;
 
--- Every possible combination of document and event for the same case, with an
+-- Commenting as there is no need of exception report when all cases are processed together.
+
+/*-- Every possible combination of document and event for the same case, with an
 -- indicator of whether the document exists on the case JSON for the event.
 -- If a case has 5 unique documents and 10 events, we should get 50 rows.
 -- Each row will have a doc_present column indicating whether the given document
@@ -41,6 +44,6 @@ from case_event ce,
 create index all_events_idx_1 on all_events (case_id, document_id, event_timestamp);
 create index all_events_idx_2 on all_events (document_id, event_timestamp,case_id);
 
-\COPY all_events TO 'tmp/allevents.csv' DELIMITER ',' CSV HEADER;
+\COPY all_events TO 'tmp/allevents.csv' DELIMITER ',' CSV HEADER;*/
 
 COMMIT;
