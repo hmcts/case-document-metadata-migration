@@ -27,8 +27,8 @@ create table doc_events(
       case_id BIGINT,
       event_timestamp TIMESTAMP,
       k VARCHAR,
-      document_url VARCHAR,
-      document_id VARCHAR
+      document_id VARCHAR,
+      document_url VARCHAR
 );
 
 drop table if exists all_events cascade;
