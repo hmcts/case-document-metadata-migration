@@ -9,7 +9,6 @@ create table problem_cases (
       case_type_id VARCHAR,
       case_reference BIGINT,
       document_id VARCHAR,
-      document_url VARCHAR,
       event_timestamp_1 TIMESTAMP,
       event_timestamp_2 TIMESTAMP,
       event_timestamp_3 TIMESTAMP
@@ -43,7 +42,6 @@ drop table if exists problem_documentids  cascade;
 create table problem_documentids  (
       jurisdiction VARCHAR,
       document_id VARCHAR,
-      document_url VARCHAR,
       case_type_id_1 VARCHAR,
       case_reference_1 BIGINT,
       event_timestamp_1 TIMESTAMP,
@@ -52,11 +50,10 @@ create table problem_documentids  (
       event_timestamp_2 TIMESTAMP
 );
 
-insert into problem_documentids (jurisdiction,document_id,document_url,case_type_id_1,case_reference_1,event_timestamp_1,case_type_id_2,case_reference_2,event_timestamp_2)
+insert into problem_documentids (jurisdiction,document_id,case_type_id_1,case_reference_1,event_timestamp_1,case_type_id_2,case_reference_2,event_timestamp_2)
 select
               cd.jurisdiction as jurisdiction,
               e1.document_id as document_id,
-              e1.document_url as document_url,
               e1.case_type_id as case_type_id_1,
               e1.case_reference as case_reference_1,
               e1.event_timestamp as event_timestamp_1,
