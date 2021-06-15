@@ -19,6 +19,18 @@ begin
 end;
 $$ language plpgsql;
 
+drop table if exists doc_events cascade;
+create table doc_events(
+      jurisdiction VARCHAR,
+      case_type_id VARCHAR,
+      case_reference BIGINT,
+      case_id BIGINT,
+      event_timestamp TIMESTAMP,
+      k VARCHAR,
+      document_url VARCHAR,
+      document_id VARCHAR
+);
+
 drop table if exists all_events cascade;
 create table all_events(
       jurisdiction VARCHAR,
@@ -27,7 +39,6 @@ create table all_events(
       case_id BIGINT,
       case_event_id BIGINT,
       document_id VARCHAR,
-      document_url VARCHAR,
       event_timestamp TIMESTAMP,
       doc_present BOOLEAN
 );
@@ -38,7 +49,6 @@ create table doc_store_export(
       case_type_id VARCHAR,
       case_reference BIGINT,
       document_id VARCHAR,
-      document_url VARCHAR,
       event_timestamp TIMESTAMP
 );
 
