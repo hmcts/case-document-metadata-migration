@@ -22,7 +22,7 @@ insert into doc_store_export(jurisdiction,case_type_id,case_reference,document_i
         ) ae2 on ae2.document_id = ae1.document_id and ae1.event_timestamp = ae2.mts
         ORDER BY case_id,document_id, event_timestamp;
 
--- try extracting into multiple csv one for each caseType.
-\COPY doc_store_export(case_reference, case_type_id, jurisdiction, document_id) TO 'tmp/docstoreexport.csv' DELIMITER ',' CSV HEADER;
+-- try extracting into multiple csv one for each jurisdiction.
+-- \COPY doc_store_export(case_reference, case_type_id, jurisdiction, document_id) TO 'tmp/docstoreexport.csv' DELIMITER ',' CSV HEADER;
 
 COMMIT;

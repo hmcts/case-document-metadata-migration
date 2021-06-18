@@ -45,6 +45,6 @@ psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA
 unset PGPASSWORD
 
 #cp tmp/allevents.csv allevents-$(date "+%Y%m%d-%H%M%S").csv
-cp tmp/docstoreexport.csv docstoreexport-$(date "+%Y%m%d-%H%M%S").csv
+#cp tmp/docstoreexport.csv docstoreexport-$(date "+%Y%m%d-%H%M%S").csv
 
 echo "[done]"
