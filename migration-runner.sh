@@ -6,7 +6,6 @@ set -u
 #set -o pipefail
 
 OPERATION=
-JURISDICTION=
 STAGING_TABLE=
 
 echo "[*] Starting"
@@ -14,14 +13,10 @@ echo "[*] Starting"
 source steps/check-required-software.sh
 source steps/check-args.sh
 
-if [ -z $OPERATION ] || [ -z $JURISDICTION ]; then
-    echo "[*] Usage: $0 -o [operation] -j [jurisdiction]"
+if [ -z $OPERATION ] ; then
+    echo "[*] Usage: $0 -o [operation] "
     echo "    Mandatory flags"
     echo "    -o [operation]"
-    echo "    -j [jurisdiction]"
-    echo
-    echo "    Optional flags"
-    echo "    -s [staging_table]"
     echo
     exit 1
 fi

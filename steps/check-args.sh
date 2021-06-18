@@ -9,9 +9,6 @@ while getopts 'o:j:s:' FLAG; do
         o)
             OPERATION="${OPTARG}"
             ;;
-        j)
-            JURISDICTION="${OPTARG}"
-            ;;
         s)
             STAGING_TABLE="${OPTARG}"
             ;;
@@ -20,10 +17,6 @@ while getopts 'o:j:s:' FLAG; do
             echo
             echo "    Mandatory flags"
             echo "    -o [operation]"
-            echo "    -j [jurisdiction]"
-            echo
-            echo "    Optional flags"
-            echo "    -s [staging_table]"
             echo
             exit 1
             ;;

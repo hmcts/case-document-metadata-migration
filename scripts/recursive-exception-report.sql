@@ -1,5 +1,17 @@
 BEGIN;
 
+drop table if exists all_events cascade;
+create table all_events(
+      jurisdiction VARCHAR,
+      case_type_id VARCHAR,
+      case_reference BIGINT,
+      case_id BIGINT,
+      case_event_id BIGINT,
+      document_id VARCHAR,
+      event_timestamp TIMESTAMP,
+      doc_present BOOLEAN
+);
+
 -- Every possible combination of document and event for the same case, with an
 -- indicator of whether the document exists on the case JSON for the event.
 -- If a case has 5 unique documents and 10 events, we should get 50 rows.
