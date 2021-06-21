@@ -35,6 +35,7 @@ do
   break
   fi
 done
+echo "$(date) : Executing post recursive script"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/post-recursive-staging.sql
 unset PGPASSWORD
 
