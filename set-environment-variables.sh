@@ -1,7 +1,6 @@
 #!/bin/bash
 
-## set the environment variables for CCD_Data_Store and
-## CCD_definition_Store
+## set the environment variables for CCD_Data_Store
 
 function set_env_variables() {
     set_env_variables_from_file "./databaseConfiguration.txt"
