@@ -6,7 +6,6 @@ set -u
 #set -o pipefail
 
 OPERATION=
-STAGING_TABLE=
 
 echo "[*] Starting"
 

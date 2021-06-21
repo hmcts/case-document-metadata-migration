@@ -4,13 +4,10 @@
 # Check the arguments that are passed to the script
 ##
 
-while getopts 'o:j:s:' FLAG; do
+while getopts 'o:' FLAG; do
     case "${FLAG}" in
         o)
             OPERATION="${OPTARG}"
-            ;;
-        s)
-            STAGING_TABLE="${OPTARG}"
             ;;
         *)
             echo "[*] Usage: $0 "

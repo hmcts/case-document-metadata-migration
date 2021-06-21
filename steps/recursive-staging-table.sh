@@ -7,12 +7,6 @@
 
 mkdir -p tmp
 
-if [ -z "$STAGING_TABLE" ]; then
-    echo "id,case_id,case_type_id,jurisdiction,document_id,event_timestamp" > tmp/recursive-staging.csv
-else
-    cp "$STAGING_TABLE" tmp/recursive-staging.csv
-fi
-
 echo -n "[*] Populating staging table and exporting CSV... "
 
 echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
@@ -44,7 +38,14 @@ done
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/post-recursive-staging.sql
 unset PGPASSWORD
 
-#cp tmp/allevents.csv allevents-$(date "+%Y%m%d-%H%M%S").csv
-cp tmp/docstoreexport.csv docstoreexport-$(date "+%Y%m%d-%H%M%S").csv
+TMP_DIR="$(pwd)/tmp/"
+
+psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v FILENAME="'$TMP_DIR'" -f scripts/create-jurisdiction-csv-files.sql 2>&1 > /dev/null
+
+pushd $TMP_DIR
+
+for FILE in *; do cp $FILE "../$(basename ${FILE} .csv)-$(date "+%Y%m%d-%H%M%S").csv"; done
+
+popd
 
 echo "[done]"

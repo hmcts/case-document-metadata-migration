@@ -7,12 +7,6 @@
 
 mkdir -p tmp
 
-if [ -z "$STAGING_TABLE" ]; then
-    echo "id,case_id,case_type_id,jurisdiction,document_id,event_timestamp" > tmp/recursive-staging.csv
-else
-    cp "$STAGING_TABLE" tmp/recursive-staging.csv
-fi
-
 echo -n "[*] Populating staging table and exporting CSV... "
 
 echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST  $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
