@@ -23,7 +23,7 @@ maxCaseId=$(psql -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STO
 echo "maxcaseId : $maxCaseId"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/pre-recursive-staging.sql
 
-declare -i countOfRecords=2000;
+declare -i countOfRecords=1000;
 declare -i startRecord=$minCaseId;
 declare -i endRecord=$maxCaseId;
 declare -i numberOfCores=8;
