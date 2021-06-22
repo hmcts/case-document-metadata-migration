@@ -21,8 +21,11 @@ if [ -z $OPERATION ] ; then
 fi
 
 case "$OPERATION" in
-    exportrecursivedocumentids)
+    exporttostagingtable)
         source steps/recursive-staging-table.sh
+        ;;
+    generatecsvs)
+        source steps/generatecsv.sh
         source steps/clean-up.sh
         ;;
     *)

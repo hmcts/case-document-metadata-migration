@@ -23,7 +23,7 @@ maxCaseId=$(psql -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STO
 echo "maxcaseId : $maxCaseId"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/pre-recursive-staging.sql
 
-declare -i countOfRecords=5000;
+declare -i countOfRecords=2000;
 declare -i startRecord=$minCaseId;
 declare -i endRecord=$maxCaseId;
 declare -i numberOfCores=8;
@@ -34,15 +34,5 @@ parallel --link --jobs $numberOfCores execute_case_batch ::: `seq -f "%.0f" $sta
 echo "$(date) : Executing post recursive script"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/post-recursive-staging.sql
 
-TMP_DIR="$(pwd)/tmp/"
-
-psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v FILENAME="'$TMP_DIR'" -f scripts/create-jurisdiction-csv-files.sql 2>&1 > /dev/null
 unset PGPASSWORD
-
-pushd $TMP_DIR
-
-for FILE in *; do cp $FILE "../$(basename ${FILE} .csv)-$(date "+%Y%m%d-%H%M%S").csv"; done
-
-popd
-
 echo "[done]"

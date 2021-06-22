@@ -1,8 +1,8 @@
 # Pre-Requisites
 
-These scripts use the `psql` command line tool.
+These scripts use the `psql` and GNU `parallel`command line tools. Please install if not available. 
  
-Also, uses GNU `parallel` for parallel execution.
+GNU `parallel` installation.
     - Mac -> $ brew install parallel
     - Debian -> $ sudo apt-get install parallel
 
@@ -30,8 +30,11 @@ Run the following command to set the relevant environment variables with the con
 > - create and populate temporary tables
 > - run recursive sql statements that may be detrimental to the performance of the targeted database
  
-## Generate Document Id’s from Case Data Using Recursive Method 
- `./migration-runner.sh -o exportrecursivedocumentids`
+## Generate staging table for all cases
+ `./migration-runner.sh -o exporttostagingtable`
+ 
+## Generate csv files from staging table for each jurisdiction 
+ `./migration-runner.sh -o generatecsvs`
 
 
 

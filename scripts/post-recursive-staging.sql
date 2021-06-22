@@ -11,8 +11,6 @@ create table doc_store_export(
       event_timestamp TIMESTAMP
 );
 
-create index doc_store_export_idx on doc_store_export(jurisdiction);
-
 insert into doc_store_export(jurisdiction,case_type_id,case_reference,document_id,event_timestamp)
         select ae1.jurisdiction,ae1.case_type_id,ae1.case_reference,ae1.document_id,ae1.event_timestamp
         from doc_events ae1
