@@ -11,6 +11,11 @@ if ! [ -x "$(command -v psql)" ]; then
     IS_REQUIRED_SOFTWARE_INSTALLED=false
 fi
 
+if ! [ -x "$(command -v parallel)" ]; then
+    echo "[*] GNU parallel is required but could not be found"
+    IS_REQUIRED_SOFTWARE_INSTALLED=false
+fi
+
 if [ "$IS_REQUIRED_SOFTWARE_INSTALLED" = false ]; then
     echo "[*] Exiting"
     echo

@@ -1,6 +1,10 @@
 # Pre-Requisites
 
 These scripts use the `psql` command line tool.
+ 
+Also, uses GNU `parallel` for parallel execution.
+    - Mac -> $ brew install parallel
+    - Debian -> $ sudo apt-get install parallel
 
 The scripts will only run after a successful check that it is installed on the system.
       
@@ -28,8 +32,6 @@ Run the following command to set the relevant environment variables with the con
  
 ## Generate Document Id’s from Case Data Using Recursive Method 
  `./migration-runner.sh -o exportrecursivedocumentids`
- 
-## Generate Exception Report from Case Data Using Recursive Method
- `./migration-runner.sh -o exportrecursiveexception `
+
 
 
