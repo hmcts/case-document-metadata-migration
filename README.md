@@ -32,7 +32,10 @@ Run the following command to set the relevant environment variables with the con
  
 ## Generate staging table for all cases
  `./migration-runner.sh -o exporttostagingtable`
- 
+
+## Generate Exception Report from Case Data Using Recursive Method
+ `./migration-runner.sh -o exportexceptionreport `
+  
 ## Generate csv files from staging table for each jurisdiction 
  `./migration-runner.sh -o generatecsvs`
 

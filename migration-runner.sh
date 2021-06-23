@@ -28,7 +28,7 @@ case "$OPERATION" in
         source steps/generatecsv.sh
         source steps/clean-up.sh
         ;;
-    exportrecursiveexception)
+    exportexceptionreport)
         source steps/recursive-exception-reports.sh
         source steps/clean-up.sh
         ;;
