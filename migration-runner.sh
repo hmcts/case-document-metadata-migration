@@ -28,6 +28,10 @@ case "$OPERATION" in
         source steps/generatecsv.sh
         source steps/clean-up.sh
         ;;
+    exportrecursiveexception)
+        source steps/recursive-exception-reports.sh
+        source steps/clean-up.sh
+        ;;
     *)
         echo "[*] Unrecognised operation: $OPERATION"
         echo "[*] Exiting"
