@@ -1,5 +1,7 @@
 BEGIN;
 
+create index doc_events_distinct_idx on doc_events (jurisdiction,case_type_id,case_reference,case_id,document_id);
+
 drop table if exists all_events cascade;
 create table all_events(
       jurisdiction VARCHAR,
