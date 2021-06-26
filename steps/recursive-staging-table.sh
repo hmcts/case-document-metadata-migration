@@ -9,12 +9,12 @@ function execute_case_batch() {
   fromCaseId=$1   #startRecord
   toCaseId=`expr $1 + $2`   #startRecord+countOfRecords
   echo "$(date): Executing case batch from startRecord=$fromCaseId to endRecord=$toCaseId"
-  psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v START_RECORD="'${fromCaseId}'" -v END_RECORD="'${toCaseId}'" -v JURISDICTION="'${JURISDICTION}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
+  psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -v START_RECORD="'${fromCaseId}'" -v END_RECORD="'${toCaseId}'" -v JURISDICTION="'${JURIS}'" -f scripts/recursive-staging.sql 2>&1 > /dev/null
 }
 
 mkdir -p tmp
 echo -n "$(date) [*] Populating staging table and exporting CSV... "
-
+export JURIS="${JURISDICTION}"
 echo "EXPORTING Recursive DOCUMENT IDs : Exporting Document Ids from Temp DB $DATA_STORE_HOST $DATA_STORE_PORT $DATA_STORE_NAME $DATA_STORE_USER"
 export PGPASSWORD="$DATA_STORE_PASS"
 minCaseId=$(psql -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -c "select min(id) from case_data where jurisdiction = '${JURISDICTION}';")
@@ -22,6 +22,7 @@ echo "mincaseId : $minCaseId"
 maxCaseId=$(psql -X -A -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -t -U "$DATA_STORE_USER" -c "select max(id) from case_data where jurisdiction = '${JURISDICTION}';")
 echo "maxcaseId : $maxCaseId"
 
+echo "$(date) : Executing pre recursive script"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/pre-recursive-staging.sql
 
 declare -i countOfRecords=1000;
