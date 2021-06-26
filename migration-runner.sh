@@ -6,30 +6,33 @@ set -u
 #set -o pipefail
 
 OPERATION=
+JURISDICTION=
 
 echo "[*] Starting"
 
 source steps/check-required-software.sh
 source steps/check-args.sh
 
-if [ -z $OPERATION ] ; then
-    echo "[*] Usage: $0 -o [operation] "
+if [ -z $OPERATION ] || [ -z $JURISDICTION ]; then
+    echo "[*] Usage: $0 -o [operation] -j [jurisdiction]"
     echo "    Mandatory flags"
     echo "    -o [operation]"
+    echo "    -j [jurisdiction]"
     echo
     exit 1
 fi
 
 case "$OPERATION" in
-    exporttostagingtable)
+    exportrecursivedocumentids)
         source steps/recursive-staging-table.sh
-        ;;
-    generatecsvs)
-        source steps/generatecsv.sh
         source steps/clean-up.sh
         ;;
-    exportexceptionreport)
+    exportrecursiveexception)
         source steps/recursive-exception-reports.sh
+        source steps/clean-up.sh
+        ;;
+     generatecsvs)
+        source steps/generatecsv.sh
         source steps/clean-up.sh
         ;;
     *)

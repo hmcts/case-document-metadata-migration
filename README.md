@@ -30,14 +30,14 @@ Run the following command to set the relevant environment variables with the con
 > - create and populate temporary tables
 > - run recursive sql statements that may be detrimental to the performance of the targeted database
  
-## Generate staging table for all cases
- `./migration-runner.sh -o exporttostagingtable`
-
-## Generate Exception Report from Case Data Using Recursive Method
- `./migration-runner.sh -o exportexceptionreport `
+## Generate Document Id’s from Case Data Using Recursive Method, for SSCS jurisdiction 
+ `./migration-runner.sh -o exportrecursivedocumentids -j SSCS`
+ 
+## Generate Exception Report from Case Data Using Recursive Method, for SSCS jurisdiction 
+ `./migration-runner.sh -o exportrecursiveexception -j SSCS`
   
-## Generate csv files from staging table for each jurisdiction 
- `./migration-runner.sh -o generatecsvs`
+## Generate csv files for a jurisdiction 
+ `./migration-runner.sh -o generatecsvs -j SSCS`
 
 
 
