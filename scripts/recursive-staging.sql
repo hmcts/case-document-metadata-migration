@@ -2,8 +2,7 @@ BEGIN;
 
 -- Using V12 new feature "jsonb_path_query" to extract all occurrences of document_binary_url in the json document,
 -- the URLs to leave just the document ID (not very clever regexes here).
-drop table if exists batch_doc_events cascade;
-create table batch_doc_events as(
+create temporary table batch_doc_events as(
 select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, replace(regexp_replace(replace(document_url::text,'/binary',''),'.*/',''),'"','') as document_id
 from
 (
