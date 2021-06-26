@@ -3,14 +3,14 @@ BEGIN;
 -- Using V12 new feature "jsonb_path_query" to extract all occurrences of document_binary_url in the json document,
 -- the URLs to leave just the document ID (not very clever regexes here).
 drop table if exists batch_doc_events cascade;
-create table batch_doc_events as
+create table batch_doc_events as(
 select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, replace(regexp_replace(replace(document_url::text,'/binary',''),'.*/',''),'"','') as document_id
 from
 (
   select cd.jurisdiction as jurisdiction, cd.case_type_id as case_type_id , cd.reference as case_reference,
   ce.case_data_id as case_id,ce.created_date as event_timestamp, jsonb_path_query(ce.data, '$.**.document_binary_url') as document_url
 from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between :START_RECORD and :END_RECORD and cd.jurisdiction = :JURISDICTION
-) raw_urls;
+) raw_urls);
 
 -- Every possible combination of document and event for the same case, with an
 -- indicator of whether the document exists on the case JSON for the event.
@@ -38,6 +38,6 @@ from case_event ce,
 -- insert each batch of doc events into main doc_events table.
 insert into doc_events (jurisdiction, case_type_id, case_reference, case_id, event_timestamp, document_id)
     select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, document_id
-    from batch_doc_events
+    from batch_doc_events;
 
 COMMIT;
