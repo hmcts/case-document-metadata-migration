@@ -46,14 +46,26 @@ create table doc_events(
 
 create or replace function generate_doc_events(startCase bigint , endCase bigint, jurisidction text) returns void as $$
     begin
-        create temporary table batch_doc_events as(
-        select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, replace(regexp_replace(replace(document_url::text,'/binary',''),'.*/',''),'"','') as document_id
-        from
-        (
-          select cd.jurisdiction as jurisdiction, cd.case_type_id as case_type_id , cd.reference as case_reference,
-          ce.case_data_id as case_id,ce.created_date as event_timestamp, jsonb_path_query(ce.data, '$.**.document_binary_url') as document_url
-        from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between $1 and $2 and cd.jurisdiction = $3
-        ) raw_urls);
+        create temporary table batch_doc_events as
+        with recursive foo as
+(
+              select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, (entry).key as k, (entry).value as v
+              from
+              (
+                           select cd.jurisdiction as jurisdiction, cd.case_type_id as case_type_id , cd.reference as case_reference, ce.case_data_id as case_id,ce.created_date as event_timestamp, jsonb_each(ce.data) as entry
+						   from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between $1 and $2 and cd.jurisdiction = $3
+              ) e
+              union
+              select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, (entry)."key" as k, (entry)."value" as v
+              from
+              (
+                           select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, normalize_jsonb(v) as entry
+                           from foo where v::text like '%document_binary_url%'
+              ) e
+)
+select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, k, replace(regexp_replace(replace(v::text,'/binary',''),'.*/',''),'"','') as document_id, v::text as document_url
+from foo
+where k = 'document_binary_url';
 
         -- Every possible combination of document and event for the same case, with an
         -- indicator of whether the document exists on the case JSON for the event.

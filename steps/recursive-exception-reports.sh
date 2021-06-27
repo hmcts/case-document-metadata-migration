@@ -24,4 +24,4 @@ psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA
 
 unset PGPASSWORD
 
-echo "[done]"
+echo "$(date) : [done]"
