@@ -31,20 +31,10 @@ create table all_events(
       doc_present BOOLEAN
 );
 
-drop table if exists doc_events cascade;
-create table doc_events(
-      jurisdiction VARCHAR,
-      case_type_id VARCHAR,
-      case_reference BIGINT,
-      case_id BIGINT,
-      event_timestamp TIMESTAMP,
-      document_id VARCHAR
-);
-
--- Using V12 new feature "jsonb_path_query" to extract all occurrences of document_binary_url in the json document,
+-- Recursive view extracts metadata and key/value pairs throughout the JSON tree,
+-- then filters for just the document_binary_url keys, stripping
 -- the URLs to leave just the document ID (not very clever regexes here).
-
-create or replace function generate_doc_events(startCase bigint , endCase bigint, jurisidction text) returns void as $$
+create or replace function populate_all_events(startCase bigint , endCase bigint, jurisidction text) returns void as $$
     begin
         create temporary table batch_doc_events as
         with recursive foo as
@@ -89,11 +79,6 @@ where k = 'document_binary_url';
                       (select distinct jurisdiction,case_type_id,case_reference,case_id,document_id
                         from batch_doc_events) cd
                         where ce.case_data_id = cd.case_id;
-
-        -- insert each batch of doc events into main doc_events table.
-        insert into doc_events (jurisdiction, case_type_id, case_reference, case_id, event_timestamp, document_id)
-            select jurisdiction, case_type_id, case_reference, case_id, event_timestamp, document_id
-            from batch_doc_events;
 
     end;
 $$ language plpgsql;
