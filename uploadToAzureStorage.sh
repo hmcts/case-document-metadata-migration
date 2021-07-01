@@ -1,10 +1,20 @@
 #!/bin/bash
 
+function checkPreRequisites {
+  az extension list-available | grep storage-preview -q
+  if [[ "$?" -ne 0 ]]; then
+    echo "  az 'store-preview' extension not installed."
+    echo "  Install using: "
+    echo "    az extension add --name storage-preview"
+    exit 1
+  fi
+}
+
 function printUsage {
-  echo "  Usage: ./uploadToAzureStorage src dest accountKey"
+  echo "  Usage: ./uploadToAzureStorage src dest connectionString"
   echo "    - src : source path from which to upload"
   echo "    - dest: azure storage destination path to upload dirs/files specified by src"
-  echo "    - accessKey: key used to authenticate requests to Azure storage account"
+  echo "    - connectionString: used to authenticate requests to Azure storage account"
 }
 
 function help {
@@ -27,26 +37,26 @@ done
 
 SRC="$1"
 DEST="$2"
-ACCESS_KEY="$3"
+CONNECTION_STRING="$3"
+
+checkPreRequisites
 
 if [ -z "$SRC" ]; then
     echo "  Source has not been specified"
     printUsage
-    exit 0
+    exit 1
 fi
 
 if [ -z "$DEST" ]; then
     echo "  Target directory has not been specified"
     printUsage
-    exit 0
+    exit 1
 fi
 
-if [ -z "$ACCESS_KEY" ]; then
-    echo "  Access Key has not been specified"
+if [ -z "$CONNECTION_STRING" ]; then
+    echo "  Azure Connection String has not been specified"
     printUsage
-    exit 0
+    exit 1
 fi
 
-CONN_STRING="DefaultEndpointsProtocol=https;AccountName=dmstorefiles;AccountKey=$ACCESS_KEY;EndpointSuffix=core.windows.net"
-
-az storage fs directory upload -f data-migration-test -s "$SRC" -d "$DEST" --recursive --connection-string="$CONN_STRING" --only-show-errors
+az storage fs directory upload -f testhmctsmetadata -s "$SRC" -d "$DEST" --recursive --connection-string="$CONNECTION_STRING" --only-show-errors
