@@ -1,13 +1,17 @@
 #!/bin/bash
 
 ##
-# STEP 11: Delete the temporary files and drop the snapshot databases on the local postgres server
+# Delete the temporary files and unset database configuration environment variables
 ##
 
 echo -n "[*] Deleting temp files... "
 rm -rf ./tmp
 echo "[done]"
-echo -n "[*] Dropping snapshot databases... "
-dropdb definition_store_snapshot 2>&1 > /dev/null
-dropdb data_store_snapshot 2>&1 > /dev/null
+
+echo -n "[*] Removing database configuration... "
+unset DATA_STORE_HOST
+unset DATA_STORE_PORT
+unset DATA_STORE_NAME
+unset DATA_STORE_USER
+unset DATA_STORE_PASS
 echo "[done]"
