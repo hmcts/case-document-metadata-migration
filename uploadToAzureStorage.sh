@@ -59,4 +59,4 @@ if [ -z "$CONNECTION_STRING" ]; then
     exit 1
 fi
 
-az storage fs directory upload -f testhmctsmetadata -s "$SRC" -d "$DEST" --recursive --connection-string="$CONNECTION_STRING" --only-show-errors
+az storage fs directory upload -f hmctsmetadata -s "$SRC" -d "$DEST" --recursive --connection-string="$CONNECTION_STRING" --only-show-errors

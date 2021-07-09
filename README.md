@@ -90,11 +90,11 @@ export UPLOAD_SCRIPT_CONN_STRING=`DefaultEndpointsProtocol=https;AccountName=<AC
 
 - Upload a local single file to azure storage root directory
     
-    `./uploadToAzureStorage.sh './CIVIL-20210621-120339.csv' './CIVIL-20210621-120339.csv' "$CONN_STR"`
+    `./uploadToAzureStorage.sh './CIVIL-20210621-120339.csv' './CIVIL-20210621-120339.csv' "$UPLOAD_SCRIPT_CONN_STRING"`
 
 - Upload a local directory and all of its contents to storage root directory
 
-    `./uploadToAzureStorage.sh './SSCS/*' '.' "$CONN_STR"`
+    `./uploadToAzureStorage.sh './SSCS/*' '.' "$UPLOAD_SCRIPT_CONN_STRING"`
     
 ## Troubleshooting
 
