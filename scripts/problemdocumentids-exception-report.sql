@@ -31,4 +31,7 @@ and   e1.document_id = e2.document_id
 and   e1.doc_present
 and   e2.doc_present;
 
+create index problem_documentids_document_id_idx on problem_documentids (document_id);
+create index problem_documentids_case_type_ids_idx on problem_documentids (case_type_id_1, case_type_id_2);
+
 COMMIT;

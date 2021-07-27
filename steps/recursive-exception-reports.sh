@@ -16,8 +16,8 @@ export PGPASSWORD="$DATA_STORE_PASS"
 echo "$(date) : Executing problemdocumentids-exception-report.sql script"
 psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/problemdocumentids-exception-report.sql
 
-echo "$(date) : Executing problemcases-exception-report.sql script"
-psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/problemcases-exception-report.sql
+#echo "$(date) : Executing problemcases-exception-report.sql script"
+#psql -h "$DATA_STORE_HOST" -p "$DATA_STORE_PORT" -d "$DATA_STORE_NAME" -U "$DATA_STORE_USER" -f scripts/problemcases-exception-report.sql
 
 unset PGPASSWORD
 
