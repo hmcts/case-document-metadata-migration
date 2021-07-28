@@ -31,13 +31,13 @@ Run the following command to set the relevant environment variables with the con
 > - run recursive sql statements that may be detrimental to the performance of the targeted database
  
 ## Generate Document Id’s from Case Data Using Recursive Method, for SSCS jurisdiction 
- `./migration-runner.sh -o exportrecursivedocumentids -j SSCS`
- 
+ `nohup ./migration-runner.sh -o exportrecursivedocumentids -j SSCS >> sscs_out.txt &`
+  
 ## Generate Exception Report from Case Data Using Recursive Method, for SSCS jurisdiction 
- `./migration-runner.sh -o exportrecursiveexception -j SSCS`
+ `nohup ./migration-runner.sh -o exportrecursiveexception -j SSCS >> sscs_ex.txt &`
   
 ## Generate csv files for a jurisdiction 
- `./migration-runner.sh -o generatecsvs -j SSCS`
+ `nohup ./migration-runner.sh -o generatecsvs -j SSCS >> sscs_csv_out.txt &`
 
 
 

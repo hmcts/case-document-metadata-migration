@@ -24,7 +24,6 @@ csv_post_process
 
 #cp tmp/allevents.csv allevents-${JURISDICTION}-$(date "+%Y%m%d-%H%M%S").csv
 #cp tmp/problemdocumentids.csv problemdocumentids-${JURISDICTION}-$(date "+%Y%m%d-%H%M%S").csv
-#cp tmp/problemcases.csv problemcases-${JURISDICTION}-$(date "+%Y%m%d-%H%M%S").csv
 
 echo "$(date) :[done]"
 
