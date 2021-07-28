@@ -26,6 +26,7 @@ create table all_events(
       case_reference BIGINT,
       case_id BIGINT,
       case_event_id BIGINT,
+      case_event_state_id VARCHAR,
       document_id VARCHAR,
       event_timestamp TIMESTAMP,
       doc_present BOOLEAN
@@ -62,13 +63,14 @@ where k = 'document_binary_url';
         -- If a case has 5 unique documents and 10 events, we should get 50 rows.
         -- Each row will have a doc_present column indicating whether the given document
         -- was in the JSON for the given event.
-        insert into all_events(jurisdiction,case_type_id,case_reference,case_id,case_event_id,document_id,event_timestamp,doc_present)
+        insert into all_events(jurisdiction,case_type_id,case_reference,case_id,case_event_id,case_event_state_id,document_id,event_timestamp,doc_present)
                       select
                       cd.jurisdiction as jurisdiction,
                       cd.case_type_id as case_type_id,
                       cd.case_reference as case_reference,
                       cd.case_id as case_id,
                       ce.id as case_event_id,
+                      ce.state_id as case_event_state_id,
                       cd.document_id as document_id,
                       ce.created_date as event_timestamp,
                       (exists (select 1 from batch_doc_events de
