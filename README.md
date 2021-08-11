@@ -67,9 +67,12 @@ brew upgrade azure-cli
 
 To upload files or directories to Azure storage use the following script 
 
-`uploadToAzureStorage.sh src dest connectionString`
+`uploadToAzureStorage.sh account_name src dest sas-token`
 
 with following parameters
+
+- `account_name`
+    - acount name of azure storage container
 
 - `src`
     - the source file(s), or directory containing the files to be uploaded
@@ -77,31 +80,28 @@ with following parameters
 - `dest`
     - the destination path on azure storage where file(s)/directory will be uploaded
 
-- connectionString
-    - used to authenticate with azure storage, should be in the following format, where ACCOUNT_NAME and ACCOUNT_KEY
-    are obviously relevant values for your azure storage container
-        
-        `DefaultEndpointsProtocol=https;AccountName=<ACCOUNT_NAME>;AccountKey=<ACCOUNT_KEY>;EndpointSuffix=core.windows.net`
+- `sas-token`
+    - A Shared Access Signature (SAS). Must be used in conjunction with storage account name. Environment variable: AZURE_STORAGE_SAS_TOKEN. 
     
 ### Usage examples
 
-Store the connection string in an environment variable rather than having to supply on command line each time
+Store the sas-token string in an environment variable rather than having to supply on command line each time
 
 ```
-export UPLOAD_SCRIPT_CONN_STRING=`DefaultEndpointsProtocol=https;AccountName=<ACCOUNT_NAME>;AccountKey=<ACCOUNT_KEY>;EndpointSuffix=core.windows.net`
+export AZURE_STORAGE_SAS_TOKEN=`?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-08-12T00:33:29Z&st=2021-08-11T16:33:29Z&spr=https&sig=CzuOvQ81jDMsU2dj8PrQiFwzSXCEkKYoPZznX70QXVM%3D`
 ```
 
-- Upload all csv files in local `SCSS` directory generated on 23rd June 2021 to azure storage root directory
+- Upload all csv files in local `SCSS` directory generated on 23rd June 2021 to azure storage root directory on AAT
 
-    `./uploadToAzureStorage.sh './SSCS/*-20210623-*.csv' '.' "$UPLOAD_SCRIPT_CONN_STRING"`
+    `./uploadToAzureStorage.sh dmstoredocaat './SSCS/*-20210623-*.csv' '.' "$AZURE_STORAGE_SAS_TOKEN"`
 
 - Upload a local single file to azure storage root directory
     
-    `./uploadToAzureStorage.sh './CIVIL-20210621-120339.csv' './CIVIL-20210621-120339.csv' "$UPLOAD_SCRIPT_CONN_STRING"`
+    `./uploadToAzureStorage.sh dmstoredocaat './CIVIL-20210621-120339.csv' './CIVIL-20210621-120339.csv' "$AZURE_STORAGE_SAS_TOKEN"`
 
 - Upload a local directory and all of its contents to storage root directory
 
-    `./uploadToAzureStorage.sh './SSCS/*' '.' "$UPLOAD_SCRIPT_CONN_STRING"`
+    `./uploadToAzureStorage.sh dmstoredocaat './SSCS/*' '.' "$AZURE_STORAGE_SAS_TOKEN"`
     
 ## Troubleshooting
 
