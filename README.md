@@ -72,7 +72,7 @@ To upload files or directories to Azure storage use the following script
 with following parameters
 
 - `account_name`
-    - acount name of azure storage container
+    - account name of azure storage container
 
 - `src`
     - the source file(s), or directory containing the files to be uploaded
