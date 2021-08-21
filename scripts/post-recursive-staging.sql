@@ -6,6 +6,7 @@ create table doc_store_export(
       case_type_id VARCHAR,
       case_reference BIGINT,
       case_id BIGINT,
+      case_state VARCHAR,
       document_id VARCHAR,
       event_timestamp TIMESTAMP
 );
@@ -13,8 +14,8 @@ create table doc_store_export(
 create index all_events_idx_1 on all_events (case_id, document_id, event_timestamp);
 create index all_events_idx_2 on all_events (document_id, event_timestamp,case_id);
 
-insert into doc_store_export(jurisdiction,case_type_id,case_reference,case_id,document_id,event_timestamp)
-    SELECT ae1.jurisdiction,ae1.case_type_id,ae1.case_reference,ae1.case_id,ae1.document_id,ae1.event_timestamp
+insert into doc_store_export(jurisdiction,case_type_id,case_reference,case_id,case_state,document_id,event_timestamp)
+    SELECT ae1.jurisdiction,ae1.case_type_id,ae1.case_reference,ae1.case_id,ae1.case_state,ae1.document_id,ae1.event_timestamp
       FROM all_events ae1
       inner join
       (SELECT document_id, max(earlist_in_case) as latest_of_earlists
