@@ -11,10 +11,11 @@ function checkPreRequisites {
 }
 
 function printUsage {
-  echo "  Usage: ./uploadToAzureStorage src dest connectionString"
+  echo "  Usage: ./uploadToAzureStorage account_name src dest sas-token"
+  echo "    - account_name : account_name of the storage container"
   echo "    - src : source path from which to upload"
   echo "    - dest: azure storage destination path to upload dirs/files specified by src"
-  echo "    - connectionString: used to authenticate requests to Azure storage account"
+  echo "    - sas-token: used to authenticate requests to Azure storage account"
 }
 
 function help {
@@ -35,12 +36,18 @@ while getopts ":h" option; do
    esac
 done
 
-SRC="$1"
-DEST="$2"
-CONNECTION_STRING="$3"
+ACCOUNT_NAME="$1"
+SRC="$2"
+DEST="$3"
+SAS_TOKEN="$4"
 
 checkPreRequisites
 
+if [ -z "$ACCOUNT_NAME" ]; then
+    echo "  Account name has not been specified"
+    printUsage
+    exit 1
+fi
 if [ -z "$SRC" ]; then
     echo "  Source has not been specified"
     printUsage
@@ -53,10 +60,10 @@ if [ -z "$DEST" ]; then
     exit 1
 fi
 
-if [ -z "$CONNECTION_STRING" ]; then
-    echo "  Azure Connection String has not been specified"
+if [ -z "$SAS_TOKEN" ]; then
+    echo "  Azure SAS_TOKEN String has not been specified"
     printUsage
     exit 1
 fi
 
-az storage fs directory upload -f hmctsmetadata -s "$SRC" -d "$DEST" --recursive --connection-string="$CONNECTION_STRING" --only-show-errors
+az storage blob directory upload --account-name "$ACCOUNT_NAME" -c hmctsmetadata --sas-token "$SAS_TOKEN" -s "$SRC" -d "$DEST" --recursive --only-show-errors
