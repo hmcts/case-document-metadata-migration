@@ -103,6 +103,8 @@ export AZURE_STORAGE_SAS_TOKEN=`?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se
 
     `./uploadToAzureStorage.sh dmstoredocaat './SSCS/*' '.' "$AZURE_STORAGE_SAS_TOKEN"`
     
+`NOTE`: Add ip address of your system in the firewall settings of azure storage account in case access is restricted with SAS_TOKEN.   
+    
 ## Troubleshooting
 
 If the script output the `Final Job Status` reports anything other than `Completed`, the location of the log file for 
