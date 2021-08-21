@@ -1,48 +1,23 @@
 #!/bin/bash
 
 ##
-# STEP 2: Check the arguments that are passed to the script
+# Check the arguments that are passed to the script
 ##
 
-while getopts 'e:o:i:j:d:f:t:s:' FLAG; do
+while getopts 'o:j:' FLAG; do
     case "${FLAG}" in
-        e)
-            ENV="${OPTARG}"
-            ;;
         o)
             OPERATION="${OPTARG}"
-            ;;
-        i)
-            DBTYPE="${OPTARG}"
             ;;
         j)
             JURISDICTION="${OPTARG}"
             ;;
-        d)
-            FROM_DATE="${OPTARG}"
-            ;;
-        f)
-            DEFINITION_STORE_SNAPSHOT="${OPTARG}"
-            ;;
-        t)
-            DATA_STORE_SNAPSHOT="${OPTARG}"
-            ;;
-        s)
-            STAGING_TABLE="${OPTARG}"
-            ;;
         *)
-            echo "[*] Usage: $0 -e [env]"
+            echo "[*] Usage: $0 "
             echo
             echo "    Mandatory flags"
-            echo "    -e [env]"
             echo "    -o [operation]"
-            echo
-            echo "    Optional flags"
             echo "    -j [jurisdiction]"
-            echo "    -d [from_date]"
-            echo "    -f [definition_store_snapshot]"
-            echo "    -t [data_store_snapshot]"
-            echo "    -s [staging_table]"
             echo
             exit 1
             ;;

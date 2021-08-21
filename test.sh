@@ -1,1 +1,0 @@
-echo "This message is from test.sh file."
