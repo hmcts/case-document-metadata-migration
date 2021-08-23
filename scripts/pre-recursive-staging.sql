@@ -46,7 +46,7 @@ create or replace function populate_all_events(startCase bigint , endCase bigint
               from
               (
                            select cd.jurisdiction as jurisdiction, cd.case_type_id as case_type_id , cd.reference as case_reference, ce.case_data_id as case_id, cd.state as case_state, ce.created_date as event_timestamp, jsonb_each(ce.data) as entry
-						   from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between $1 and $2 and cd.jurisdiction = $3
+						   from case_data as cd, case_event AS ce WHERE cd.id = ce.case_data_id and cd.id between $1 and $2 and cd.jurisdiction = $3 and cd.state IN ('draftArchived','draft','voidState')
               ) e
               union
               select jurisdiction, case_type_id, case_reference, case_id, case_state, event_timestamp, (entry)."key" as k, (entry)."value" as v
