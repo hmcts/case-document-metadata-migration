@@ -7,7 +7,20 @@ GNU `parallel` installation.
     - Debian -> $ sudo apt-get install parallel
 
 The scripts will only run after a successful check that it is installed on the system.
-      
+
+Please make sure azure cli >= `2.0.67`
+
+Upgrade Azure CLI to the latest version
+
+```
+brew update
+brew upgrade azure-cli
+```
+
+Install `storage-preview` azure cli extension
+
+`az extension add --name storage-preview`      
+
 ## Configure the database properties to be used
 Update `databaseConfiguration.txt` with the following database properties
 
@@ -44,24 +57,6 @@ Run the following command to set the relevant environment variables with the con
 # Uploading CVS result files to Azure Storage
 
 A script is provided that allowds upload of files or directory contents to Azure storage
-
-## Pre-requisites
-
-Please make sure azure cli >= `2.0.67`
-
-This script has been tested with azure cli version `2.25.0`
-
-### Upgrade to latest version of Azure CLI
-Upgrade Azure CLI to the latest version
-
-```
-brew update
-brew upgrade azure-cli
-```
-
-### Install `storage-preview` azure cli extension
-
-`az extension add --name storage-preview`
 
 ## Script Usage
 
