@@ -12,11 +12,13 @@ Please refer [pre-requisites](README.md) if required.
       ssh bastion-dev-nonprod
     ```
 
-- Checkout migration scripts. 
+- Checkout `sscs_draft_cases` migration scripts branch. 
     ```
       git clone https://github.com/hmcts/case-document-metadata-migration.git
             
       cd case-document-metadata-migration
+  
+      git checkout sscs_draft_cases     
     ``` 
 - Configure the database properties to be used
 
@@ -29,19 +31,19 @@ Please refer [pre-requisites](README.md) if required.
 - Generate Document Id’s from case data using recursive method.(Eg: for SSCS)
 
    ```
-    nohup ./migration-runner.sh -o exportrecursivedocumentids -j SSCS >> sscs_out.txt &
+    nohup ./migration-runner.sh -o exportrecursivedocumentids -j SSCS >> sscs_draft_cases_out.txt &
    ```
 Depending on number of cases in a jurisdiction it might take 2 - 5 hours to complete above step. Progress can be checked using below command.
 
    ```
-    tail -100f sscs_out.txt
+    tail -100f sscs_draft_cases_out.txt
    ```
 
 Once above step has finished, run below command to generate CVSs from staging table (doc_store_export). 
 
 - Generate csv files for a jurisdiction. ((Eg: for SSCS)
    ```
-    nohup ./migration-runner.sh -o generatecsvs -j SSCS >> sscs_csv_out.txt &
+    nohup ./migration-runner.sh -o generatecsvs -j SSCS >> sscs_draft_cases_csv_out.txt &
   ```
 
 ## Part 2:  
@@ -57,8 +59,12 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
 
     ```
       export AZURE_STORAGE_SAS_TOKEN="<copy SAS value from azure portal>"
-
+        
       ./uploadToAzureStorage.sh dmstoredocprod './csvs/*'  '.' "$AZURE_STORAGE_SAS_TOKEN"
+        
+      # backup uploaded csvs into another directory. 
+      mv csvs sscs_draft_cases_csvs
+
    ```
 
 - Check all files have uploaded or not using azure portal on the container `hmctsmetadata`.
