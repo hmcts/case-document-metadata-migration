@@ -3,7 +3,7 @@
 Follow below steps to run metadata migrations from Bastion (or local) against COPY of data-store database. 
 Please refer [pre-requisites](README.md) if required.
 
- ##Part 1:
+##Part 1:
  This part executes relevant scripts to find out all case documents for a given jurisdiction and populate them into staging tables. (all_events and doc_store_export). Depending on number of cases in a jurisdiction it might take 2 - 5 hours to complete. 
 
 - Log onto bastion non-prod
