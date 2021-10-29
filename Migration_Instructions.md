@@ -59,6 +59,8 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
 
     ```
       export AZURE_STORAGE_SAS_TOKEN="<copy SAS value from azure portal>"
+      
+      Specify correct source directory name if it's different from "./csvs"
     
       ./uploadToAzureStorage.sh dmstoredocprod './csvs/*'  '.' "$AZURE_STORAGE_SAS_TOKEN"
       
