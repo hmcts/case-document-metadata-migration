@@ -62,10 +62,8 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
       
       Specify correct source directory name if it's different from "./csvs"
     
-      ./uploadToAzureStorage.sh dmstoredocprod './csvs/*'  '.' "$AZURE_STORAGE_SAS_TOKEN"
+      ./uploadToAzureStorage.sh dmstoredocprod './sscs_main_csvs/*'  '.' "$AZURE_STORAGE_SAS_TOKEN"      
       
-      # backup uploaded csvs into another directory. 
-      mv csvs sscs_main_cases_csvs  
   
    ```
 
