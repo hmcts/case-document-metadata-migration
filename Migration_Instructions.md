@@ -71,4 +71,12 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
 
 - From this step onward EM jobs will process CSVs in their end. They would confirm progress of the migration. 
 
+## Samples for verification:
+Please use below script to generate few sample records for post migration verification. These samples along with dm_store's
+SQL query has to be provide in the jira ticket (Eg: DTSPO-5539).
+    
+        ./getSampleRecordsForVerification.sh <csvs directory>
+        
+        Eg: ./getSampleRecordsForVerification.sh sscs_main_csvs
+    
 
