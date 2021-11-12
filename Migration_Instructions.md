@@ -67,10 +67,15 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
 
 ## Samples for verification:
 Please use below script to generate few sample records for post migration verification. These samples along with dm_store's
-SQL query has to be provide in the jira ticket (Eg: DTSPO-5539).
+SQL query has to be provide in the jira ticket (Eg: DTSPO-5684).
     
         ./getSampleRecordsForVerification.sh <csvs directory>
         
         Eg: ./getSampleRecordsForVerification.sh sscs_main_csvs
     
+This should fetch 3 records from each csv and include them in the SQL.
+
+Run generated SQL query against "evidence" database. Ideally it should return empty records.
+In case if it returns a record for a documentId which have metadata already then please replace that with some other docId from SAME csv file.
+Make sure that we should include at least one csv record which doesn't have any metadata from each csv file for the post migration verification.
 

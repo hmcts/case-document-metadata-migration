@@ -15,9 +15,10 @@ fi
 
 for file in ${path}/*.csv
 do
-   grep -v '^\s*$' "$file" | tail -n1 >> ${outputFile}
+   sed -n '2p;1000p;$p' < "$file" >> ${outputFile}
+   printf "\n" >> ${outputFile}
 done
-echo "##one doc record from each csv##"
+echo "##first, thousand and last doc records from each csv##"
 cat ${outputFile}
 echo "##SQL to verify against dm store database ##"
 query='select documentmetadata_id, name, value from documentmetadata where documentmetadata_id in ('
