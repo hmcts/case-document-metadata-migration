@@ -57,6 +57,8 @@ This part needs to execute in co-ordination with EM team to upload generated CVS
 
     ```
       export AZURE_STORAGE_SAS_TOKEN="<copy SAS value from azure portal>"
+      
+      Specify correct source directory name if it's different from "./csvs"
 
       ./uploadToAzureStorage.sh dmstoredocprod './csvs/*'  '.' "$AZURE_STORAGE_SAS_TOKEN"
    ```
@@ -73,9 +75,10 @@ SQL query has to be provide in the jira ticket (Eg: DTSPO-5684).
         
         Eg: ./getSampleRecordsForVerification.sh sscs_main_csvs
     
-This should fetch 3 records from each csv and include them in the SQL.
+This would fetch 3 records from each csv and include them in the SQL.
 
-Run generated SQL query against "evidence" database. Ideally it should return empty records.
-In case if it returns a record for a documentId which have metadata already then please replace that with some other docId from SAME csv file.
-Make sure that we should include at least one csv record which doesn't have any metadata from each csv file for the post migration verification.
+Run generated SQL query against "evidence" database before EM job started. Ideally it should return empty records.
+In case if it returns a record for a documentId which have metadata already then please replace that id in the SQL with some other docId from SAME csv file.
+
+*Note:* Make sure that we should include at least one csv record which doesn't have any metadata from each csv file for the post migration verification.
 
