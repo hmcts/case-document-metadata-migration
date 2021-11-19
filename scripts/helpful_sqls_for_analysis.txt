@@ -1,0 +1,24 @@
+DIVORCE - problem_documentids
+=================================
+
+ccd_data_store=> select count(distinct document_id) from problem_documentids_divorce;
+
+
+ccd_data_store=> select distinct case_type_id_1 from problem_documentids_divorce;
+
+
+ccd_data_store=> select count(distinct document_id) from problem_documentids_divorce where case_type_id_1 ='DIVORCE' and case_type_id_2 ='DIVORCE';
+
+
+ccd_data_store=> select count(distinct document_id) from problem_documentids_divorce where case_type_id_1 ='DIVORCE' and case_type_id_2 ='DIVORCE_ExceptionRecord';
+
+
+select count(distinct document_id) from problem_documentids_divorce where case_type_id_1 ='FinancialRemedyMVP2' and case_type_id_2 ='FinancialRemedyMVP2' and document_id not in (select distinct document_id from problem_documentids_divorce where case_type_id_1 !='FinancialRemedyMVP2' or case_type_id_2 !='FinancialRemedyMVP2');
+
+
+select distinct case_type_id, count(*) from doc_store_export_divorce where document_id in (select distinct document_id from problem_documentids_divorce where case_type_id_1 ='FinancialRemedyContested' and case_type_id_2 ='FINREM_ExceptionRecord') group by case_type_id;
+
+ccd_data_store=> select distinct document_id from doc_store_export_divorce where document_id in (select distinct document_id from problem_documentids_divorce where case_type_id_1 ='FinancialRemedyMVP2' and case_type_id_2 ='FINREM_ExceptionRecord') and case_type_id = 'FINREM_ExceptionRecord' limit 10;
+
+
+select distinct document_id from problem_documentids_divorce where case_type_id_1 ='DIVORCE' and case_type_id_2 ='DIVORCE' and document_id not in (select distinct document_id from problem_documentids_divorce where case_type_id_1 ='DIVORCE_ExceptionRecord' or case_type_id_2 ='DIVORCE_ExceptionRecord') order by document_id limit 100;
